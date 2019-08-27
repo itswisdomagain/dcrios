@@ -37,6 +37,7 @@ extension UIButton {
         case .top:
             borderLayer.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: thickness)
         }
+        clipsToBounds = true
         
         self.layer.addSublayer(borderLayer)
         self.setNeedsLayout()

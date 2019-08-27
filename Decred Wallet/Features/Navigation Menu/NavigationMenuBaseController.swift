@@ -25,17 +25,24 @@ class NavigationMenuBaseController: TabMenuController{
     // MARK: View controllers setup for tab bar
     func setupView(){
         
-        var pages = [TabBarItem]()
+        let overview = Storyboards.Overview.instantiateViewController(for: OverviewViewController.self).wrapInNavigationcontroller()
+        overview.tabBarItem.image = UIImage(named: "menu/overview")
+        overview.tabBarItem.title = LocalizedStrings.overview
         
-        pages.append(TabBarItem.init(icon: UIImage(named: "ic_overview02_24px")!, title: LocalizedStrings.overview, controller: TabItems.overview.viewController))
-        pages.append(TabBarItem.init(icon: UIImage(named: "ic_transactions01_24px")!, title: LocalizedStrings.transactions, controller: TabItems.transactions.viewController))
-        pages.append(TabBarItem.init(icon: UIImage(named: "ic_accounts02_24px")!, title: LocalizedStrings.accounts, controller: TabItems.accounts.viewController))
-        pages.append(TabBarItem.init(icon: UIImage(named: "ic_menu2_24px")!, title: "More", controller: TabItems.more.viewController))
+        let transactions = TransactionHistoryViewController()
+        transactions.tabBarItem.image = UIImage(named: "menu/transactions")
+        transactions.tabBarItem.title = LocalizedStrings.transactions
         
-        setupCustomTabBar(pages, completion: {(controllers) in
-            self.viewControllers = controllers
-        })
+        let accounts = Storyboards.Accounts.instantiateViewController(for: AccountsViewController.self).wrapInNavigationcontroller()
+        accounts.tabBarItem.image = UIImage(named: "accounts")
+        accounts.tabBarItem.title = LocalizedStrings.accounts
         
+        let more = Storyboards.More.instantiateViewController(for: MoreViewController.self).wrapInNavigationcontroller()
+        more.tabBarItem.image = UIImage(named: "menu")
+        more.tabBarItem.title = LocalizedStrings.more
+        
+        viewControllers = [overview, transactions, accounts, more]
+        tabBar.backgroundColor = UIColor.white
         self.selectedIndex = 0
     }
     

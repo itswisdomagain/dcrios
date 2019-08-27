@@ -112,6 +112,7 @@
 "restartingSynchronization" = "Restarting Synchronization";
 "startingSynchronization" = "Starting Synchronization";
 "transactions" = "Transactions";
+"more" = "More";
 
 /* No Wifi Sync Connection */
 "notConnectedToWiFi" = "Not connected to WiFi.";
@@ -161,6 +162,16 @@
 "currentTotalBalance" = "Current Total Balance";
 "recentActivity" = "Recent Activity";
 "showAllTransactions" = "Show All Transactions";
+"recentTransactions" = "Recent Transactions";
+"walletStatus" = "Wallet Status";
+"walletSynced" = "Synced";
+"walletNotSynced" = "Not Synced";
+"online" = "Online";
+"offline" = "Offline";
+"connectedTo" = "Connected to";
+"peers" = "peers";
+"seeAll" = "See all";
+
 
 /* Transaction List/ History */
 "pending" = "Pending";

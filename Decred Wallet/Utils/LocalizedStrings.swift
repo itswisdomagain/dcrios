@@ -155,6 +155,7 @@ struct LocalizedStrings {
     static let settings = NSLocalizedString("settings", comment: "")
     static let help = NSLocalizedString("help", comment: "")
     static let transactions = NSLocalizedString("transactions", comment: "")
+    static let more = NSLocalizedString("more", comment: "")
     
     /* New Wallet Dialog */
     static let newWalletMsg = NSLocalizedString("newWalletMsg", comment: "")
@@ -164,6 +165,15 @@ struct LocalizedStrings {
     static let currentTotalBalance = NSLocalizedString("currentTotalBalance", comment: "")
     static let recentActivity = NSLocalizedString("recentActivity", comment: "")
     static let showAllTransactions = NSLocalizedString("showAllTransactions", comment: "")
+    static let walletStatus = NSLocalizedString("walletStatus", comment: "")
+    static let walletNotSynced = NSLocalizedString("walletNotSynced", comment: "")
+    static let walletSynced = NSLocalizedString("walletSynced", comment: "")
+    static let online = NSLocalizedString("online", comment: "")
+    static let offline = NSLocalizedString("offline", comment: "")
+    static let connectedTo = NSLocalizedString("connectedTo", comment: "")
+    static let peers = NSLocalizedString("peers", comment: "")
+    static let recentTransactions = NSLocalizedString("recentTransactions", comment: "")
+    static let seeAll = NSLocalizedString("seeAll", comment: "")
     
     /* Transaction List/ History */
     static let pending = NSLocalizedString("pending", comment: "")

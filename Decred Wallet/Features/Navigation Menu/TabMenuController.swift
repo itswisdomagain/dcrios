@@ -37,7 +37,7 @@ class TabMenuController: UITabBarController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBar.isHidden = true
+//        tabBar.isHidden = true
     }
     
     public func setupCustomTabBar(_ withItems: [TabBarItem], completion: @escaping ([UIViewController]) -> Void){
