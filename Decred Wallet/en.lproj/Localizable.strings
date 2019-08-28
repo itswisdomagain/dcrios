@@ -99,7 +99,7 @@
 "rescanProgress" = "%d%% completed, %@ left.";
 "syncCanceled" = "Sync canceled.";
 "syncError" = "Sync error.";
-"latestBlock" = "Latest Block: %d";
+"latestBlock" = "Latest block %d";
 "now" = "now";
 "secondsAgo" = "%ds ago";
 "minAgo" = "%dm ago";
@@ -123,7 +123,7 @@
 
 /* Sync progress view */
 "loading" = "Loading...";
-"numberOfConnectedPeers" = "%d peers";
+"numberOfConnectedPeers" = "Connected to %d peers";
 "numberOfConnectedPeer" = "%d peer";
 "syncingWithPeersOnNetwork" = "Syncing with %@ on %@.";
 "fetchedHeaders" = "Fetched %d of ~%d block headers.\n";

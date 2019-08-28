@@ -69,11 +69,6 @@ class NavigationMenuBaseController: TabMenuController{
         }
     }
     
-//    func changeActiveTab(to: MenuItem){
-//        self.selectedIndex = to.rawValue
-//    }
-//
-    
     static func setupMenuAndLaunchApp(isNewWallet: Bool){
         // wallet is open, setup sync listener and start notification listener
         AppDelegate.walletLoader.syncer.registerEstimatedSyncProgressListener()

@@ -7,41 +7,81 @@
 // license that can be found in the LICENSE file.
 
 import UIKit
+import Signals
 
 class OverviewViewController: UIViewController {
 //    @IBOutlet weak var syncProgressViewContainer: UIView!
 //
 //    @IBOutlet weak var overviewPageContentView: UIView!
 //    @IBOutlet weak var fetchingBalanceIndicator: UIImageView!
-//    @IBOutlet weak var recentActivityTableView: UITableView!
+//    @IBOutlet weak var recentTransactionsTableView: UITableView!
 //
     // Stacked views (so we can add items if needed
     @IBOutlet weak var transactionHistorySection: UIStackView!
     @IBOutlet weak var walletStatusSection: UIStackView!
     
-    // Title Labels
-    @IBOutlet weak var pageTitleLabel: UILabel!
+    // MARK: - Title Labels
+    @IBOutlet weak var pageTitleLabel: UILabel!{
+        didSet{
+            pageTitleLabel.text = LocalizedStrings.overview
+        }
+    }
+    
     @IBOutlet weak var currentBalance: UILabel!
-    @IBOutlet weak var totalBalanceLabel: UILabel!
+    @IBOutlet weak var totalBalanceLabel: UILabel!{
+        didSet{
+            totalBalanceLabel.text = LocalizedStrings.currentTotalBalance
+        }
+    }
     
-    
-    // Recent Transactions
-    @IBOutlet weak var recentTransactionsLabelView: UIView!
-    @IBOutlet weak var recentTransactionsLabel: UILabel!
+    // MARK: - Recent Transactions
+    @IBOutlet weak var recentTransactionsLabelView: UIView!{
+        didSet{
+            recentTransactionsLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.52)
+        }
+        
+    }
+    @IBOutlet weak var recentTransactionsLabel: UILabel!{
+        didSet{
+            recentTransactionsLabel.text = LocalizedStrings.recentTransactions
+        }
+    }
     @IBOutlet var recentTransactionsTableView: UITableView!
-    @IBOutlet weak var seeAllTransactionsButton: UIButton!
+    @IBOutlet weak var seeAllTransactionsButton: UIButton!{
+        didSet{
+            seeAllTransactionsButton.titleLabel?.text = LocalizedStrings.seeAll
+            seeAllTransactionsButton.addBorder(atPosition: .top, color: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), thickness: 0.74)
+        }
+    }
     
     
     // Wallet status
-    @IBOutlet weak var statusIndicator: UIView!
+    @IBOutlet weak var statusIndicator: UIView!{
+        didSet{
+            syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
+            statusIndicator.contentMode = .scaleAspectFit
+        }
+    }
     @IBOutlet weak var statusLabel: UILabel!
     
-    // Sync Status
-    @IBOutlet weak var walletStatusLabelView: UIView!
-    @IBOutlet weak var walletStatusLabel: UILabel!
+    // MARK: Sync Status section setup
+    @IBOutlet weak var walletStatusLabelView: UIView!{
+        didSet{
+            walletStatusLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.52)
+        }
+    }
+    @IBOutlet weak var walletStatusLabel: UILabel!{
+        didSet{
+            walletStatusLabel.text = LocalizedStrings.walletStatus
+        }
+    }
     @IBOutlet weak var onlineIndicator: UIView!
     @IBOutlet weak var onlineStatusLabel: UILabel!
-    @IBOutlet weak var syncStatusIndicator: UIImageView!
+    @IBOutlet weak var syncStatusIndicator: UIImageView!{
+        didSet{
+            syncStatusLabel.text = (AppDelegate.walletLoader.isSynced) ? LocalizedStrings.walletSynced : LocalizedStrings.walletNotSynced
+        }
+    }
     @IBOutlet weak var syncStatusLabel: UILabel!
     @IBOutlet weak var latestBlockLabel: UILabel!
     @IBOutlet weak var connectionStatusLabel: UILabel!
@@ -53,7 +93,7 @@ class OverviewViewController: UIViewController {
     
     
     var recentTransactions = [Transaction]()
-//    struct syncStatus = 
+    var syncManager = SyncManager()
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "embedSyncProgressVC" && AppDelegate.walletLoader.isSynced {
@@ -62,49 +102,37 @@ class OverviewViewController: UIViewController {
         return true
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "embedSyncProgressVC" {
-            (segue.destination as! SyncProgressViewController).afterSyncCompletes = self.initializeOverviewContent
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "embedSyncProgressVC" {
+//            (segue.destination as! SyncProgressViewController).afterSyncCompletes = self.initializeOverviewContent
+//        }
+//    }
     
     override func viewDidLoad() {
-        setupInterface()
+        self.setupInterface()
         if AppDelegate.walletLoader.isSynced {
             self.initializeOverviewContent()
+        }
+        
+        self.syncManager.syncStatus.subscribe(with: self){ (arg) in
+            
+            let (status, error) = arg
+            self.updateSync(status: status, error: error)
+        }
+        
+        self.syncManager.peers.subscribe(with: self){ arg in
+            
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.setupNavigationBar(withTitle: LocalizedStrings.overview)
+//        self.setupNavigationBar(withTitle: LocalizedStrings.overview)
     }
     
     func setupInterface(){
         // Container view setup
         view.backgroundColor = UIColor(red: 0.95, green: 0.96, blue: 0.96, alpha: 1)
-        
-        // MARK: Title labels section setup
-        pageTitleLabel.text = LocalizedStrings.overview
-        totalBalanceLabel.text = LocalizedStrings.currentTotalBalance
-        
-        // MARK: Recent transactions section setup
-        recentTransactionsLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.52)
-        
-        recentTransactionsLabel.text = LocalizedStrings.recentTransactions
-        seeAllTransactionsButton.titleLabel?.text = LocalizedStrings.seeAll
-        seeAllTransactionsButton.addBorder(atPosition: .top, color: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), thickness: 0.74)
-        
-        // MARK: Wallet sync statuc section setup
-        walletStatusLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.52)
-        walletStatusLabel.text = LocalizedStrings.walletStatus
-//        onlineIndicator.layer.backgroundColor = (Reachability.Connection.)
-        //TODO: internet connection active check to color indicators
-        
-//        syncStatusIndicator.layer.cornerRadius =
-        syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
-        statusIndicator.contentMode = .scaleAspectFit
-        syncStatusLabel.text = (AppDelegate.walletLoader.isSynced) ? LocalizedStrings.walletSynced : LocalizedStrings.walletNotSynced
         
         
         // MARK: Floating buttons setup
@@ -119,12 +147,6 @@ class OverviewViewController: UIViewController {
         separator.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
         separator.widthAnchor.constraint(equalToConstant: 2.0)
         separator.centerXAnchor.constraint(equalTo: buttonView.centerXAnchor).isActive = true
-//
-//        separator.centerXAnchor.constraint(equalTo: buttonView.centerXAnchor).isActive = true
-//        separator.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
-//        separator.widthAnchor.constraint(equalToConstant: 1.0).isActive = true
-        
-        
         
         sendButton.imageView?.contentMode = .scaleAspectFill
         sendButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 31)
@@ -132,7 +154,6 @@ class OverviewViewController: UIViewController {
         sendButton.contentVerticalAlignment = .fill
         sendButton.contentHorizontalAlignment = .fill
         sendButton.titleLabel?.text = LocalizedStrings.send
-        
         
         receiveButton.imageView?.contentMode = .scaleAspectFill
         receiveButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 8, bottom: 12, right: 10)
@@ -143,9 +164,49 @@ class OverviewViewController: UIViewController {
         
     }
     
+    func updateRecentActivity(){
+        let maxDisplayItems = round(self.recentTransactionsTableView.frame.size.height / TransactionTableViewCell.height())
+        AppDelegate.walletLoader.wallet?.transactionHistory(count: Int32(maxDisplayItems)) { transactions in
+            if transactions == nil || transactions!.count == 0 {
+                self.showNoTransactions()
+                return
+            }
+
+            self.recentTransactions = transactions!
+            self.recentTransactionsTableView.backgroundView = nil
+            self.recentTransactionsTableView.separatorStyle = .singleLine
+            self.recentTransactionsTableView.reloadData()
+        }
+    }
+    
+    func updateSync(status: SyncManager.status, error: String?){
+        if error == nil{
+            
+            return
+        }
+        
+        switch status {
+        case .complete:
+//            do stuff
+            break
+        case .failed:
+//            do stuff again
+            break
+        case .syncing:
+//            do again
+            break
+        case .waiting:
+//            do agaii
+            break
+        default:
+            break
+        }
+    }
+    
     
     
     func initializeOverviewContent() {
+        self.updateRecentActivity()
 //        self.syncProgressViewContainer.removeFromSuperview()
 //        self.syncProgressViewContainer = nil
 //
@@ -155,15 +216,15 @@ class OverviewViewController: UIViewController {
 //        self.fetchingBalanceIndicator.loadGif(name: "progress bar-1s-200px")
 //        self.updateCurrentBalance()
 //
-//        self.recentActivityTableView.registerCellNib(TransactionTableViewCell.self)
-//        self.recentActivityTableView.delegate = self
-//        self.recentActivityTableView.dataSource = self
+//        self.recentTransactionsTableView.registerCellNib(TransactionTableViewCell.self)
+//        self.recentTransactionsTableView.delegate = self
+//        self.recentTransactionsTableView.dataSource = self
 //        self.loadRecentActivity()
 //
 //        let pullToRefreshControl = UIRefreshControl()
 //        pullToRefreshControl.addTarget(self, action: #selector(self.handleRecentActivityTableRefresh(_:)), for: UIControl.Event.valueChanged)
 //        pullToRefreshControl.tintColor = UIColor.lightGray
-//        self.recentActivityTableView.addSubview(pullToRefreshControl)
+//        self.recentTransactionsTableView.addSubview(pullToRefreshControl)
 //
 //        self.overviewPageContentView.isHidden = false
     }
@@ -183,31 +244,17 @@ class OverviewViewController: UIViewController {
     }
     
     @objc func handleRecentActivityTableRefresh(_ refreshControl: UIRefreshControl) {
-        self.loadRecentActivity()
+        self.updateRecentActivity()
         refreshControl.endRefreshing()
     }
     
-    func loadRecentActivity() {
-//        let maxDisplayItems = round(self.recentActivityTableView.frame.size.height / TransactionTableViewCell.height())
-//        AppDelegate.walletLoader.wallet?.transactionHistory(count: Int32(maxDisplayItems)) { transactions in
-//            if transactions == nil || transactions!.count == 0 {
-//                self.showNoTransactions()
-//                return
-//            }
-//
-//            self.recentTransactions = transactions!
-//            self.recentActivityTableView.backgroundView = nil
-//            self.recentActivityTableView.separatorStyle = .singleLine
-//            self.recentActivityTableView.reloadData()
-//        }
-    }
     
     func showNoTransactions() {
-//        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.recentActivityTableView.bounds.size.width, height: self.recentActivityTableView.bounds.size.height))
-//        label.text = LocalizedStrings.noTransactions
-//        label.textAlignment = .center
-//        self.recentActivityTableView.backgroundView = label
-//        self.recentActivityTableView.separatorStyle = .none
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.recentTransactionsTableView.bounds.size.width, height: self.recentTransactionsTableView.bounds.size.height))
+        label.text = LocalizedStrings.noTransactions
+        label.textAlignment = .center
+        self.recentTransactionsTableView.backgroundView = label
+        self.recentTransactionsTableView.separatorStyle = .none
     }
     
 //    @IBAction func showAllTransactionsButtonTap(_ sender: Any) {
@@ -243,19 +290,19 @@ extension OverviewViewController: NewTransactionNotificationProtocol, ConfirmedT
 //        self.updateCurrentBalance()
 //
 //        DispatchQueue.main.async {
-//            let maxDisplayItems = round(self.recentActivityTableView.frame.size.height / TransactionTableViewCell.height())
+//            let maxDisplayItems = round(self.recentTransactionsTableView.frame.size.height / TransactionTableViewCell.height())
 //            if self.recentTransactions.count > Int(maxDisplayItems) {
 //                _ = self.recentTransactions.popLast()
 //            }
 //
-//            self.recentActivityTableView.reloadData()
+//            self.recentTransactionsTableView.reloadData()
 //        }
     }
     
     func onTransactionConfirmed(_ hash: String?, height: Int32) {
         DispatchQueue.main.async {
-            self.updateCurrentBalance()
-            self.loadRecentActivity()
+//            self.updateCurrentBalance()
+            self.updateRecentActivity()
         }
     }
 }
@@ -294,6 +341,7 @@ extension OverviewViewController: UITableViewDataSource {
         if self.recentTransactions.count != 0 {
             let tx = self.recentTransactions[indexPath.row]
             cell.setData(tx)
+            cell.imageView?.image = (tx.Direction == 0) ? UIImage(named: "ic_receive_24px") : UIImage(named: "ic_send_24px")
         }
         
         return cell

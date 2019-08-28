@@ -13,9 +13,6 @@
         <array key="SourceSansPro-Regular.ttf">
             <string>SourceSansPro-Regular</string>
         </array>
-        <array key="SourceSansPro-SemiBold.ttf">
-            <string>SourceSansPro-SemiBold</string>
-        </array>
     </customFonts>
     <scenes>
         <!--Overview View Controller-->
@@ -85,6 +82,16 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MN7-fI-aB8">
                                         <rect key="frame" x="0.0" y="46" width="398" height="168"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Ch5-tg-aoC">
+                                                <rect key="frame" x="0.0" y="28" width="398" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ch5-tg-aoC" id="ThU-XW-jTC">
+                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="43.666666666666664"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xys-10-QaM">
                                         <rect key="frame" x="0.0" y="214.00000000000003" width="398" height="47.999999999999972"/>
@@ -309,91 +316,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SDu-jM-obu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-3391.304347826087" y="-1453.125"/>
-        </scene>
-        <!--Sync Progress View Controller-->
-        <scene sceneID="lW2-Ua-5zO">
-            <objects>
-                <viewController id="kPX-aZ-EXk" customClass="SyncProgressViewController" customModule="Decred_Wallet" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="iOf-IR-Zfl">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="qBd-aw-Ju0">
-                                <rect key="frame" x="0.0" y="321.66666666666669" width="414" height="252.66666666666669"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Synchronizing" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpN-C1-UKu">
-                                        <rect key="frame" x="16" y="16" width="382" height="24"/>
-                                        <fontDescription key="fontDescription" name="SourceSansPro-SemiBold" family="Source Sans Pro" pointSize="19"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="yHy-WX-9OF">
-                                        <rect key="frame" x="16" y="52" width="382" height="8"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="8" id="QOc-Rg-Vrd"/>
-                                        </constraints>
-                                        <color key="progressTintColor" red="0.49803921569999998" green="0.80000000000000004" blue="0.61960784310000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <color key="trackTintColor" red="0.61176470589999998" green="0.61176470589999998" blue="0.61176470589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </progressView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="56% completed, 30 seconds remaining." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i2g-EK-0Wo">
-                                        <rect key="frame" x="16" y="72" width="382" height="21.666666666666671"/>
-                                        <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="17"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gy1-Aw-5vP">
-                                        <rect key="frame" x="16" y="105.66666666666663" width="382" height="30"/>
-                                        <state key="normal" title="Tap to view information"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="xibLocalizedStringKey" value="tapToViewInformation"/>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="onTapShowDetailedSync:" destination="kPX-aZ-EXk" eventType="touchUpInside" id="CEm-cZ-MPp"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discovering used addresses...." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FQx-9O-b3Q">
-                                        <rect key="frame" x="16" y="147.66666666666663" width="382" height="21.666666666666657"/>
-                                        <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="17"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Debug information goes here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="be1-m8-0Mv">
-                                        <rect key="frame" x="16" y="181.33333333333331" width="382" height="21.666666666666657"/>
-                                        <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="17"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Syncing with 6 peers on testnet." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aRH-eN-kcY">
-                                        <rect key="frame" x="16" y="214.99999999999994" width="382" height="21.666666666666657"/>
-                                        <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="17"/>
-                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
-                            </stackView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="qBd-aw-Ju0" firstAttribute="width" secondItem="R3p-WA-9JU" secondAttribute="width" id="8m5-OJ-uME"/>
-                            <constraint firstItem="qBd-aw-Ju0" firstAttribute="centerX" secondItem="iOf-IR-Zfl" secondAttribute="centerX" id="ZRd-2x-56B"/>
-                            <constraint firstItem="qBd-aw-Ju0" firstAttribute="centerY" secondItem="iOf-IR-Zfl" secondAttribute="centerY" id="nX0-Fk-WwB"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="R3p-WA-9JU"/>
-                    </view>
-                    <connections>
-                        <outlet property="connectedPeersLabel" destination="aRH-eN-kcY" id="Abs-mt-UBH"/>
-                        <outlet property="currentSyncActionReportLabel" destination="FQx-9O-b3Q" id="9Uk-my-itj"/>
-                        <outlet property="debugSyncInfoLabel" destination="be1-m8-0Mv" id="2DW-4C-b2k"/>
-                        <outlet property="generalSyncProgressBar" destination="yHy-WX-9OF" id="eam-HG-jit"/>
-                        <outlet property="generalSyncProgressLabel" destination="i2g-EK-0Wo" id="faA-8L-BZp"/>
-                        <outlet property="showDetailedSyncReportButton" destination="gy1-Aw-5vP" id="NRX-f2-7nZ"/>
-                        <outlet property="syncHeaderLabel" destination="gpN-C1-UKu" id="yJB-aB-9O6"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bEr-MH-y3x" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2433" y="-1453"/>
         </scene>
     </scenes>
     <resources>

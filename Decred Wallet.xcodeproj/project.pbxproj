@@ -13,6 +13,7 @@
 		2509A6852310DD8F003535F2 /* More.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2509A6842310DD8F003535F2 /* More.storyboard */; };
 		2509A6872310DDAA003535F2 /* MoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2509A6862310DDAA003535F2 /* MoreViewController.swift */; };
 		2509A6952313DC02003535F2 /* TabMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2509A6942313DC02003535F2 /* TabMenuController.swift */; };
+		2516FBEB2315C3E200ADDAFC /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516FBEA2315C3E200ADDAFC /* SyncManager.swift */; };
 		2534EDBF231401B800236D8C /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2534EDBE231401B800236D8C /* TabBarItemView.swift */; };
 		25AEB1C9230565A000F68DBA /* FloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEB1C8230565A000F68DBA /* FloatingLabelTextField.swift */; };
 		2A11C88FC2C6C613F50568BB /* Pods_Decred_Wallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9714AB438E597D403032748 /* Pods_Decred_Wallet.framework */; };
@@ -161,6 +162,7 @@
 		2509A6842310DD8F003535F2 /* More.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = More.storyboard; sourceTree = "<group>"; };
 		2509A6862310DDAA003535F2 /* MoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreViewController.swift; sourceTree = "<group>"; };
 		2509A6942313DC02003535F2 /* TabMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabMenuController.swift; sourceTree = "<group>"; };
+		2516FBEA2315C3E200ADDAFC /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
 		2534EDBE231401B800236D8C /* TabBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
 		25AEB1C8230565A000F68DBA /* FloatingLabelTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingLabelTextField.swift; sourceTree = "<group>"; };
 		25F34E9123080A8100A999B2 /* Decred WalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Decred WalletTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -642,6 +644,7 @@
 				DDCF259922B8A346005FCBB9 /* Overview.storyboard */,
 				B3B469F1228F0F2600A68EDD /* OverviewViewController.swift */,
 				B3B469F0228F0F2600A68EDD /* SyncProgressViewController.swift */,
+				2516FBEA2315C3E200ADDAFC /* SyncManager.swift */,
 			);
 			path = Overview;
 			sourceTree = "<group>";
@@ -1007,6 +1010,7 @@
 				B36EFD362298617C002753B2 /* UIButton.swift in Sources */,
 				B3B469FC228F0F2700A68EDD /* String.swift in Sources */,
 				B3B46A9D228F0F7D00A68EDD /* HelpViewController.swift in Sources */,
+				2516FBEB2315C3E200ADDAFC /* SyncManager.swift in Sources */,
 				B3B46A9A228F0F7D00A68EDD /* SettingsController.swift in Sources */,
 				B3B46A26228F0F2700A68EDD /* CreateNewWalletViewController.swift in Sources */,
 				B3B46A14228F0F2700A68EDD /* AccountsHeaderView.swift in Sources */,
