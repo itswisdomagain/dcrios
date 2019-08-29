@@ -121,6 +121,9 @@ struct LocalizedStrings {
     static let no = NSLocalizedString("no", comment: "")
     static let yes = NSLocalizedString("yes", comment: "")
     static let always = NSLocalizedString("always", comment: "")
+    static let allowCellularData = NSLocalizedString("allowCellularData", comment: "")
+    static let allowOnce = NSLocalizedString("allowOnce", comment: "")
+    static let notNow = NSLocalizedString("notNow", comment: "")
     
     /* Sync progress view */
     static let loading = NSLocalizedString("loading", comment: "")

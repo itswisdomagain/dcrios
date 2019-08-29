@@ -23,21 +23,21 @@ class OverviewViewController: UIViewController {
     // MARK: - Title Labels
     @IBOutlet weak var pageTitleLabel: UILabel!{
         didSet{
-            pageTitleLabel.text = LocalizedStrings.overview
+            self.pageTitleLabel.text = LocalizedStrings.overview
         }
     }
     
     @IBOutlet weak var currentBalance: UILabel!
     @IBOutlet weak var totalBalanceLabel: UILabel!{
         didSet{
-            totalBalanceLabel.text = LocalizedStrings.currentTotalBalance
+            self.totalBalanceLabel.text = LocalizedStrings.currentTotalBalance
         }
     }
     
     // MARK: - Recent Transactions
     @IBOutlet weak var recentTransactionsLabelView: UIView!{
         didSet{
-            recentTransactionsLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.52)
+            self.recentTransactionsLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: self.recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.52)
         }
         
     }
@@ -56,10 +56,10 @@ class OverviewViewController: UIViewController {
     
     
     // Wallet status
-    @IBOutlet weak var statusIndicator: UIView!{
+    @IBOutlet weak var statusIndicator: UIImageView!{
         didSet{
-            syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
-            statusIndicator.contentMode = .scaleAspectFit
+            self.syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
+            self.statusIndicator.contentMode = .scaleAspectFit
         }
     }
     @IBOutlet weak var statusLabel: UILabel!
@@ -77,30 +77,25 @@ class OverviewViewController: UIViewController {
     }
     @IBOutlet weak var onlineIndicator: UIView!
     @IBOutlet weak var onlineStatusLabel: UILabel!
-    @IBOutlet weak var syncStatusIndicator: UIImageView!{
+    @IBOutlet weak var syncStatusIndicator: UIImageView!
+    @IBOutlet weak var syncStatusLabel: UILabel!{
         didSet{
             syncStatusLabel.text = (AppDelegate.walletLoader.isSynced) ? LocalizedStrings.walletSynced : LocalizedStrings.walletNotSynced
         }
     }
-    @IBOutlet weak var syncStatusLabel: UILabel!
     @IBOutlet weak var latestBlockLabel: UILabel!
     @IBOutlet weak var connectionStatusLabel: UILabel!
-    
-    // Floating Buttons
-    @IBOutlet weak var buttonView: UIView!
-    @IBOutlet weak var sendButton: UIButton!
-    @IBOutlet weak var receiveButton: UIButton!
     
     
     var recentTransactions = [Transaction]()
     var syncManager = SyncManager()
     
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == "embedSyncProgressVC" && AppDelegate.walletLoader.isSynced {
-            return false
-        }
-        return true
-    }
+//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+//        if identifier == "embedSyncProgressVC" && AppDelegate.walletLoader.isSynced {
+//            return false
+//        }
+//        return true
+//    }
     
 //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if segue.identifier == "embedSyncProgressVC" {
@@ -121,7 +116,7 @@ class OverviewViewController: UIViewController {
         }
         
         self.syncManager.peers.subscribe(with: self){ arg in
-            
+            print("Peers: \(arg)")
         }
     }
     
@@ -136,31 +131,31 @@ class OverviewViewController: UIViewController {
         
         
         // MARK: Floating buttons setup
-        buttonView.layer.cornerRadius = 24
-        let separator = UIView(frame: CGRect.zero)
-        separator.backgroundColor = UIColor.white
-        separator.isOpaque = true
-//        separator.clipsToBounds = true
-        buttonView.addSubview(separator)
-        buttonView.bringSubviewToFront(separator)
-//        separator.translatesAutoresizingMaskIntoConstraints = true
-        separator.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
-        separator.widthAnchor.constraint(equalToConstant: 2.0)
-        separator.centerXAnchor.constraint(equalTo: buttonView.centerXAnchor).isActive = true
-        
-        sendButton.imageView?.contentMode = .scaleAspectFill
-        sendButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 31)
-        sendButton.titleEdgeInsets = UIEdgeInsets(top: 15, left: 20, bottom: 15, right: 10)
-        sendButton.contentVerticalAlignment = .fill
-        sendButton.contentHorizontalAlignment = .fill
-        sendButton.titleLabel?.text = LocalizedStrings.send
-        
-        receiveButton.imageView?.contentMode = .scaleAspectFill
-        receiveButton.imageEdgeInsets = UIEdgeInsets(top: 12, left: 8, bottom: 12, right: 10)
-        receiveButton.titleEdgeInsets = UIEdgeInsets(top: 15, left: 25, bottom: 15, right: -15)
-        receiveButton.contentVerticalAlignment = .fill
-        receiveButton.contentHorizontalAlignment = .fill
-        receiveButton.titleLabel?.text = LocalizedStrings.receive
+//        buttonView.layer.cornerRadius = 24
+//        let separator = UIView(frame: CGRect.zero)
+//        separator.backgroundColor = UIColor.white
+//        separator.isOpaque = true
+////        separator.clipsToBounds = true
+//        buttonView.addSubview(separator)
+//        buttonView.bringSubviewToFront(separator)
+////        separator.translatesAutoresizingMaskIntoConstraints = true
+//        separator.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
+//        separator.widthAnchor.constraint(equalToConstant: 2.0)
+//        separator.centerXAnchor.constraint(equalTo: buttonView.centerXAnchor).isActive = true
+//        
+//
+//
+//
+//
+//
+//        
+//        
+//        
+//
+//
+//
+//
+//        receiveButton.titleLabel?.text = LocalizedStrings.receive
         
     }
     
@@ -341,9 +336,7 @@ extension OverviewViewController: UITableViewDataSource {
         if self.recentTransactions.count != 0 {
             let tx = self.recentTransactions[indexPath.row]
             cell.setData(tx)
-            cell.imageView?.image = (tx.Direction == 0) ? UIImage(named: "ic_receive_24px") : UIImage(named: "ic_send_24px")
         }
-        
         return cell
     }
 }

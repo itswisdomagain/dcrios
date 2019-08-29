@@ -13,6 +13,11 @@ class TransactionTableViewCell: BaseTableViewCell {
     
     @IBOutlet weak var dataImage: UIImageView!
     @IBOutlet weak var dataText: UILabel!
+    @IBOutlet weak var statusIndicator: UIImageView!{
+        didSet{
+            self.statusIndicator.contentMode = .scaleAspectFit
+        }
+    }
     @IBOutlet weak var status: UILabel!
     @IBOutlet weak var dateT: UILabel!
     
@@ -29,33 +34,43 @@ class TransactionTableViewCell: BaseTableViewCell {
         if let transaction = data as? Transaction {
             let bestBlock =  AppDelegate.walletLoader.wallet?.getBestBlock()
             var confirmations = 0
-            if(transaction.Height != -1){
-                confirmations = Int(bestBlock!) - transaction.Height
-                confirmations += 1
-            }
-
-            if (transaction.Height == -1) {
-                self.status.textColor = UIColor(hex:"#3d659c")
-                self.status.text = LocalizedStrings.pending
-            } else {
-                if (Settings.spendUnconfirmed || confirmations > 1) {
-                    self.status.textColor = UIColor(hex:"#2DD8A3")
-                    self.status.text = LocalizedStrings.confirmed
-                } else {
-                    self.status.textColor = UIColor(hex:"#3d659c")
-                    self.status.text = LocalizedStrings.pending
-                }
-            }
-            
             let Date2 = NSDate.init(timeIntervalSince1970: TimeInterval(transaction.Timestamp) )
             let dateformater = DateFormatter()
             dateformater.locale = Locale(identifier: "en_US_POSIX")
             dateformater.dateFormat = "MMM dd, yyyy hh:mma"
-            dateformater.amSymbol = "am"
-            dateformater.pmSymbol = "pm"
-            dateformater.string(from: Date2 as Date)
+            dateformater.doesRelativeDateFormatting = true
+            //            dateformater.amSymbol = "am"
+            //            dateformater.pmSymbol = "pm"
+            let date = dateformater.string(from: Date2 as Date)
             
-            self.dateT.text = dateformater.string(from: Date2 as Date)
+            if(transaction.Height != -1){
+                confirmations = Int(bestBlock!) - transaction.Height
+                confirmations += 1
+                
+            }
+
+            
+            if (transaction.Height == -1) {
+                self.status.textColor = UIColor(hex:"#3d659c")
+                self.status.text = LocalizedStrings.pending
+                self.statusIndicator.image = UIImage(named: "status/status-pending")
+                
+            } else {
+                if (confirmations > 2) {
+                    self.status.textColor = UIColor(hex:"#2DD8A3")
+                    self.status.text = date
+                    self.statusIndicator.image = UIImage(named: "status/status-ok")
+
+                } else {
+                    self.status.textColor = UIColor(hex:"#3d659c")
+                    self.status.text = LocalizedStrings.pending
+                    self.statusIndicator.image = UIImage(named: "status/status-pending")
+                }
+            }
+            
+            
+//
+//            self.dateT.text = dateformater.string(from: Date2 as Date)
             let amount = Decimal(transaction.Amount / 100000000.00) as NSDecimalNumber
             let requireConfirmation = Settings.spendUnconfirmed ? 0 : 2
             
@@ -64,12 +79,12 @@ class TransactionTableViewCell: BaseTableViewCell {
                     let attributedString = NSMutableAttributedString(string: "-")
                     attributedString.append(Utils.getAttributedString(str: amount.round(8).description, siz: 13.0, TexthexColor: GlobalConstants.Colors.TextAmount))
                     self.dataText.attributedText = attributedString
-                    self.dataImage?.image = UIImage(named: "debit")
+                    self.dataImage?.image = UIImage(named: "ic_send_24px")
                 } else if(transaction.Direction == 1) {
                     let attributedString = NSMutableAttributedString(string: " ")
                     attributedString.append(Utils.getAttributedString(str: amount.round(8).description, siz: 13.0, TexthexColor: GlobalConstants.Colors.TextAmount))
                     self.dataText.attributedText = attributedString
-                    self.dataImage?.image = UIImage(named: "credit")
+                    self.dataImage?.image = UIImage(named: "ic_receive_24px")
                 } else if(transaction.Direction == 2) {
                     let attributedString = NSMutableAttributedString(string: " ")
                     attributedString.append(Utils.getAttributedString(str: amount.round(8).description, siz: 13.0, TexthexColor: GlobalConstants.Colors.TextAmount))
@@ -86,12 +101,12 @@ class TransactionTableViewCell: BaseTableViewCell {
                     self.status.textColor = UIColor(hex:"#3d659c")
                     self.status.text = LocalizedStrings.pending
                 } else if (confirmations > BuildConfig.TicketMaturity) {
-                    let statusText = LocalizedStrings.confirmedLive
-                    let range = (statusText as NSString).range(of: "/")
-                    let attributedString = NSMutableAttributedString(string: statusText)
-                    attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black , range: range)
-                    self.status.textColor = UIColor(hex:"#2DD8A3")
-                    self.status.attributedText = attributedString
+//                    let statusText = LocalizedStrings.confirmedLive
+//                    let range = (statusText as NSString).range(of: "/")
+//                    let attributedString = NSMutableAttributedString(string: statusText)
+//                    attributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.black , range: range)
+//                    self.status.textColor = UIColor(hex:"#2DD8A3")
+//                    self.status.attributedText = attributedString
                     self.dataImage?.image = UIImage(named: "live")
                 } else {
                     let statusText = LocalizedStrings.confirmedImmature

@@ -82,16 +82,6 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MN7-fI-aB8">
                                         <rect key="frame" x="0.0" y="46" width="398" height="168"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Ch5-tg-aoC">
-                                                <rect key="frame" x="0.0" y="28" width="398" height="44"/>
-                                                <autoresizingMask key="autoresizingMask"/>
-                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ch5-tg-aoC" id="ThU-XW-jTC">
-                                                    <rect key="frame" x="0.0" y="0.0" width="398" height="43.666666666666664"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </tableViewCellContentView>
-                                            </tableViewCell>
-                                        </prototypes>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xys-10-QaM">
                                         <rect key="frame" x="0.0" y="214.00000000000003" width="398" height="47.999999999999972"/>
@@ -228,44 +218,6 @@
                                     <constraint firstAttribute="trailing" secondItem="Zyf-vp-PzG" secondAttribute="trailing" id="yFj-Zg-i6j"/>
                                 </constraints>
                             </stackView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRw-dO-MD7">
-                                <rect key="frame" x="87" y="623.66666666666663" width="240" height="48"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mmu-3M-azd">
-                                        <rect key="frame" x="25" y="0.0" width="90" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="OTV-Tr-S1X"/>
-                                            <constraint firstAttribute="width" constant="90" id="sG3-cu-alY"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="16"/>
-                                        <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="-1" maxY="0.0"/>
-                                        <inset key="imageEdgeInsets" minX="-30" minY="12" maxX="0.0" maxY="12"/>
-                                        <state key="normal" title="Send" image="ic_send_24px"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iQi-zV-qTg">
-                                        <rect key="frame" x="125" y="0.0" width="90" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="90" id="15W-x0-9l9"/>
-                                            <constraint firstAttribute="height" constant="48" id="wVB-eP-BnD"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="SourceSansPro-Regular" family="Source Sans Pro" pointSize="16"/>
-                                        <state key="normal" title="Receive" image="ic_receive_24px">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.16" green="0.44" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="iQi-zV-qTg" secondAttribute="bottom" id="JQ2-3P-E9h"/>
-                                    <constraint firstAttribute="bottom" secondItem="Mmu-3M-azd" secondAttribute="bottom" id="JkL-TJ-Nqd"/>
-                                    <constraint firstItem="Mmu-3M-azd" firstAttribute="leading" secondItem="fRw-dO-MD7" secondAttribute="leading" constant="25" id="Kpz-Tu-erz"/>
-                                    <constraint firstItem="Mmu-3M-azd" firstAttribute="top" secondItem="fRw-dO-MD7" secondAttribute="top" id="VSe-7n-PAn"/>
-                                    <constraint firstAttribute="width" constant="240" id="hIL-Q4-sUk"/>
-                                    <constraint firstItem="iQi-zV-qTg" firstAttribute="top" secondItem="fRw-dO-MD7" secondAttribute="top" id="heI-K0-b1H"/>
-                                    <constraint firstAttribute="trailing" secondItem="iQi-zV-qTg" secondAttribute="trailing" constant="25" id="rhF-17-ba0"/>
-                                    <constraint firstAttribute="height" constant="48" id="tWr-Uh-xgA"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -275,8 +227,6 @@
                             <constraint firstItem="QVq-VR-ZIj" firstAttribute="leading" secondItem="IWn-Ne-Dkr" secondAttribute="leading" constant="24" id="EzO-BM-HQY"/>
                             <constraint firstItem="VDw-ZE-C6w" firstAttribute="top" secondItem="IWn-Ne-Dkr" secondAttribute="top" constant="18" id="LZj-Zd-ffk"/>
                             <constraint firstItem="1wX-Fr-RY2" firstAttribute="top" secondItem="QVq-VR-ZIj" secondAttribute="bottom" constant="4" id="M5x-0v-vhw"/>
-                            <constraint firstItem="fRw-dO-MD7" firstAttribute="top" secondItem="LML-N4-Yud" secondAttribute="bottom" constant="12" id="O5Q-aY-Ber"/>
-                            <constraint firstItem="fRw-dO-MD7" firstAttribute="centerX" secondItem="H1c-ja-cqc" secondAttribute="centerX" id="PdK-QJ-CgD"/>
                             <constraint firstItem="LML-N4-Yud" firstAttribute="top" secondItem="QEw-zG-2dL" secondAttribute="bottom" constant="8" id="Qt8-PS-mok"/>
                             <constraint firstItem="QEw-zG-2dL" firstAttribute="leading" secondItem="IWn-Ne-Dkr" secondAttribute="leading" constant="8" id="XpS-87-OiN"/>
                             <constraint firstItem="QVq-VR-ZIj" firstAttribute="top" secondItem="cm2-Lw-Mqc" secondAttribute="bottom" constant="18" id="ZgD-KT-M7q"/>
@@ -289,22 +239,18 @@
                         <viewLayoutGuide key="safeArea" id="IWn-Ne-Dkr"/>
                     </view>
                     <connections>
-                        <outlet property="buttonView" destination="fRw-dO-MD7" id="iOY-ua-0bS"/>
                         <outlet property="connectionStatusLabel" destination="YW1-oM-a6x" id="Nrp-BT-D36"/>
                         <outlet property="currentBalance" destination="QVq-VR-ZIj" id="uEb-CM-pBp"/>
                         <outlet property="latestBlockLabel" destination="wcm-z8-fXi" id="TjD-zC-56h"/>
-                        <outlet property="onlineIndicator" destination="R28-Id-5HJ" id="Yv3-bE-B9Q"/>
+                        <outlet property="onlineIndicator" destination="R28-Id-5HJ" id="T7P-oV-BwQ"/>
                         <outlet property="onlineStatusLabel" destination="tHl-Hu-AGu" id="Oke-eN-kln"/>
                         <outlet property="pageTitleLabel" destination="VDw-ZE-C6w" id="Z2t-hU-zYT"/>
-                        <outlet property="receiveButton" destination="iQi-zV-qTg" id="E5G-vf-JJl"/>
                         <outlet property="recentTransactionsLabel" destination="oun-mh-dS3" id="lJl-TV-Upz"/>
                         <outlet property="recentTransactionsLabelView" destination="9fx-As-e8S" id="CNe-rF-30c"/>
                         <outlet property="recentTransactionsTableView" destination="MN7-fI-aB8" id="Oq6-RG-V93"/>
                         <outlet property="seeAllTransactionsButton" destination="xys-10-QaM" id="DAL-aA-uSQ"/>
-                        <outlet property="sendButton" destination="Mmu-3M-azd" id="d0U-cE-cky"/>
-                        <outlet property="statusIndicator" destination="R28-Id-5HJ" id="zZ4-wj-0xk"/>
                         <outlet property="statusLabel" destination="tHl-Hu-AGu" id="Bd8-Bd-61L"/>
-                        <outlet property="syncStatusIndicator" destination="Ugf-Ye-b1k" id="rxW-06-OIr"/>
+                        <outlet property="syncStatusIndicator" destination="Ugf-Ye-b1k" id="f66-Mq-XNg"/>
                         <outlet property="syncStatusLabel" destination="9A9-jL-INv" id="kV8-PG-ksg"/>
                         <outlet property="totalBalanceLabel" destination="1wX-Fr-RY2" id="0f2-b7-Vrm"/>
                         <outlet property="transactionHistorySection" destination="QEw-zG-2dL" id="XJg-Bd-XJg"/>
@@ -320,7 +266,5 @@
     </scenes>
     <resources>
         <image name="ic_decred01_24px" width="8" height="8"/>
-        <image name="ic_receive_24px" width="8" height="8"/>
-        <image name="ic_send_24px" width="8" height="8"/>
     </resources>
 </document>

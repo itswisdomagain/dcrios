@@ -115,11 +115,15 @@
 "more" = "More";
 
 /* No Wifi Sync Connection */
-"notConnectedToWiFi" = "Not connected to WiFi.";
+"notConnectedToWiFi" = "Not connected to Wi-Fi. Use cellular data instead?";
 "syncAnyways" = "Would you like to sync anyways?";
 "no" = "No";
 "yes" = "Yes";
-"always" = "Always";
+"always" = "Always Allow";
+"allowCellularData" = "Do you want to allow using cellular data to sync?";
+"allowOnce" = "Allow Once";
+"notNow" = "Not Now";
+
 
 /* Sync progress view */
 "loading" = "Loading...";
