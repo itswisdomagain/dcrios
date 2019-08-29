@@ -13,7 +13,7 @@ class NavigationMenuBaseController: TabMenuController{
     var isNewWallet: Bool = false
     var restartSyncTriggered: Bool = false
 
-    var syncManager = SyncManager()
+//    var syncManager = SyncManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -192,7 +192,7 @@ class NavigationMenuBaseController: TabMenuController{
     
     
     func startSync(){
-        AppDelegate.walletLoader.syncer.registerSyncProgressListener(for: "\(self)", syncManager)
+        AppDelegate.walletLoader.syncer.registerSyncProgressListener(for: "\(self)", SyncManager.shared)
         
         if self.restartSyncTriggered {
             self.restartSyncTriggered = false
@@ -206,11 +206,6 @@ class NavigationMenuBaseController: TabMenuController{
     
     func restartSync() {
         AppDelegate.walletLoader.syncer.restartSync()
-        
-//        self.stopRefreshingBestBlockAge()
-        
-//        self.resetSyncViews()
-//        self.syncStatusLabel.text = LocalizedStrings.restartingSync
     }
     
     // Show a temporary "wallet created" alert if this is a new wallet
@@ -235,7 +230,27 @@ class NavigationMenuBaseController: TabMenuController{
         }
         completion()
     }
+    
+    
+//    func onSyncCompleted() {
+//        self.updateBalance()
+//
+////        self.syncInProgressIndicator.stopAnimating()
+////        self.syncInProgressIndicator.isHidden = true
+////
+//        self.syncStatusLabel.text = String(format: LocalizedStrings.syncedWith, AppDelegate.walletLoader.syncer.connectedPeers)
+//        self.syncStatusLabel.superview?.backgroundColor = UIColor(hex: "#2DD8A3")
+//
+//        self.syncOperationProgressBar.isHidden = true
+//
+//        self.updateLatestBlockInfo()
+//
+//        AppDelegate.walletLoader.notification.registerListener(for: "\(self)", newBlockListener: self)
+//        AppDelegate.walletLoader.notification.registerListener(for: "\(self)", newTxistener: self)
+//    }
 }
+
+
 
 //
 //extension NavigationMenuController: UITabBarDelegate{

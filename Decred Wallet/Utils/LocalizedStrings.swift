@@ -114,6 +114,7 @@ struct LocalizedStrings {
     static let totalBalance = NSLocalizedString("totalBalance", comment: "")
     static let restartingSynchronization = NSLocalizedString("restartingSynchronization", comment: "")
     static let startingSynchronization = NSLocalizedString("startingSynchronization", comment: "")
+    static let waitingToSync = NSLocalizedString("waitingToSync", comment: "")
     
     /*No Wifi Sync Connection */
     static let notConnectedToWiFi = NSLocalizedString("notConnectedToWiFi", comment: "")

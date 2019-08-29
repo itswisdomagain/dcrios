@@ -7,7 +7,7 @@
 // license that can be found in the LICENSE file.
 
 import UIKit
-import Signals
+//import Signals
 
 class OverviewViewController: UIViewController {
 //    @IBOutlet weak var syncProgressViewContainer: UIView!
@@ -56,25 +56,13 @@ class OverviewViewController: UIViewController {
     
     
     // Wallet status
-    @IBOutlet weak var statusIndicator: UIImageView!{
-        didSet{
-            self.syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
-            self.statusIndicator.contentMode = .scaleAspectFit
-        }
-    }
+    @IBOutlet weak var statusIndicator: UIImageView!
     @IBOutlet weak var statusLabel: UILabel!
     
     // MARK: Sync Status section setup
-    @IBOutlet weak var walletStatusLabelView: UIView!{
-        didSet{
-            walletStatusLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.52)
-        }
-    }
-    @IBOutlet weak var walletStatusLabel: UILabel!{
-        didSet{
-            walletStatusLabel.text = LocalizedStrings.walletStatus
-        }
-    }
+    @IBOutlet weak var walletStatusLabelView: UIView!
+    @IBOutlet weak var walletStatusLabel: UILabel!
+    
     @IBOutlet weak var onlineIndicator: UIView!
     @IBOutlet weak var onlineStatusLabel: UILabel!
     @IBOutlet weak var syncStatusIndicator: UIImageView!
@@ -88,7 +76,8 @@ class OverviewViewController: UIViewController {
     
     
     var recentTransactions = [Transaction]()
-    var syncManager = SyncManager()
+    var syncManager = SyncManager.shared
+    var isSyncing: Bool = false
     
 //    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
 //        if identifier == "embedSyncProgressVC" && AppDelegate.walletLoader.isSynced {
@@ -105,57 +94,38 @@ class OverviewViewController: UIViewController {
     
     override func viewDidLoad() {
         self.setupInterface()
-        if AppDelegate.walletLoader.isSynced {
-            self.initializeOverviewContent()
+        
+        syncManager.status.subscribe(with: self){ (status, error) in
+//            let (status, error) = arg
+            DispatchQueue.main.async {
+                self.updateSync(status: status, error: error)
+            }
         }
         
-        self.syncManager.syncStatus.subscribe(with: self){ (arg) in
-            
-            let (status, error) = arg
-            self.updateSync(status: status, error: error)
+        syncManager.peers.subscribe(with: self){ (peers) in
+            print(peers)
+            DispatchQueue.main.async {
+                let text = String(format: LocalizedStrings.connectedTo, peers)
+                self.connectionStatusLabel.text! = text
+            }
         }
         
-        self.syncManager.peers.subscribe(with: self){ arg in
-            print("Peers: \(arg)")
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        view.backgroundColor = UIColor(red: 0.95, green: 0.96, blue: 0.96, alpha: 1)
         super.viewWillAppear(animated)
 //        self.setupNavigationBar(withTitle: LocalizedStrings.overview)
     }
     
     func setupInterface(){
-        // Container view setup
-        view.backgroundColor = UIColor(red: 0.95, green: 0.96, blue: 0.96, alpha: 1)
+        walletStatusLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.32)
+        walletStatusLabel.text = LocalizedStrings.walletStatus
+        syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
+        syncStatusIndicator.contentMode = .scaleAspectFit
         
+        latestBlockLabel.text = String(format: LocalizedStrings.latestBlock, (AppDelegate.walletLoader.wallet?.getBestBlock())!)
         
-        // MARK: Floating buttons setup
-//        buttonView.layer.cornerRadius = 24
-//        let separator = UIView(frame: CGRect.zero)
-//        separator.backgroundColor = UIColor.white
-//        separator.isOpaque = true
-////        separator.clipsToBounds = true
-//        buttonView.addSubview(separator)
-//        buttonView.bringSubviewToFront(separator)
-////        separator.translatesAutoresizingMaskIntoConstraints = true
-//        separator.heightAnchor.constraint(equalToConstant: 24.0).isActive = true
-//        separator.widthAnchor.constraint(equalToConstant: 2.0)
-//        separator.centerXAnchor.constraint(equalTo: buttonView.centerXAnchor).isActive = true
-//        
-//
-//
-//
-//
-//
-//        
-//        
-//        
-//
-//
-//
-//
-//        receiveButton.titleLabel?.text = LocalizedStrings.receive
         
     }
     
@@ -174,26 +144,39 @@ class OverviewViewController: UIViewController {
         }
     }
     
-    func updateSync(status: SyncManager.status, error: String?){
-        if error == nil{
-            
-            return
-        }
-        
+    func updateSync(status: syncStatus, error: String?){
         switch status {
         case .complete:
 //            do stuff
+            if isSyncing{
+                self.isSyncing = false
+            }
+            syncStatusLabel.text = (AppDelegate.walletLoader.isSynced) ? LocalizedStrings.walletSynced : LocalizedStrings.walletNotSynced
+            syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
             break
         case .failed:
 //            do stuff again
-            break
+            if self.isSyncing{
+                self.isSyncing = false
+            }
+            self.syncStatusLabel.text = LocalizedStrings.syncError
         case .syncing:
 //            do again
+            if self.isSyncing{
+                break
+            }
+            syncStatusLabel.text = LocalizedStrings.synchronizing
+            syncStatusIndicator.image = UIImage(named: "icon-syncing")
+            self.isSyncing = true
             break
         case .waiting:
 //            do agaii
-            break
-        default:
+            if self.isSyncing{
+                break
+            }
+            syncStatusLabel.text = LocalizedStrings.waitingToSync
+            syncStatusIndicator.image = UIImage(named: "icon-syncing")
+            self.isSyncing = true
             break
         }
     }

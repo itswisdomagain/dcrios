@@ -113,8 +113,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zyf-vp-PzG">
                                         <rect key="frame" x="0.0" y="0.0" width="398" height="46"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wallet Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pte-HL-Hop">
-                                                <rect key="frame" x="16" y="16" width="76" height="14"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="status label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pte-HL-Hop">
+                                                <rect key="frame" x="16" y="16" width="67" height="14"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="14" id="jb1-qz-1T0"/>
                                                 </constraints>
@@ -250,7 +250,7 @@
                         <outlet property="recentTransactionsTableView" destination="MN7-fI-aB8" id="Oq6-RG-V93"/>
                         <outlet property="seeAllTransactionsButton" destination="xys-10-QaM" id="DAL-aA-uSQ"/>
                         <outlet property="statusLabel" destination="tHl-Hu-AGu" id="Bd8-Bd-61L"/>
-                        <outlet property="syncStatusIndicator" destination="Ugf-Ye-b1k" id="f66-Mq-XNg"/>
+                        <outlet property="syncStatusIndicator" destination="Ugf-Ye-b1k" id="VTg-5L-gut"/>
                         <outlet property="syncStatusLabel" destination="9A9-jL-INv" id="kV8-PG-ksg"/>
                         <outlet property="totalBalanceLabel" destination="1wX-Fr-RY2" id="0f2-b7-Vrm"/>
                         <outlet property="transactionHistorySection" destination="QEw-zG-2dL" id="XJg-Bd-XJg"/>

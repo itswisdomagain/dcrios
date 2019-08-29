@@ -111,6 +111,7 @@
 "totalBalance" = "Total Balance";
 "restartingSynchronization" = "Restarting Synchronization";
 "startingSynchronization" = "Starting Synchronization";
+"waitingToSync" = "Waiting to sync";
 "transactions" = "Transactions";
 "more" = "More";
 
@@ -172,7 +173,7 @@
 "walletNotSynced" = "Not Synced";
 "online" = "Online";
 "offline" = "Offline";
-"connectedTo" = "Connected to";
+"connectedTo" = "Connected to %d peers";
 "peers" = "peers";
 "seeAll" = "See all";
 
