@@ -113,7 +113,7 @@ class OverviewViewController: UIViewController {
     
     override func viewDidLoad() {
         self.setupInterface()
-        
+        self.updateCurrentBalance()
         if AppDelegate.walletLoader.isSynced{
             self.updateRecentActivity()
         }else{
@@ -403,38 +403,7 @@ class OverviewViewController: UIViewController {
     }
     
 }
-//
-//extension OverviewViewController: NewTransactionNotificationProtocol, ConfirmedTransactionNotificationProtocol {
-//    func onTransaction(_ transaction: String?) {
-////
-////
-////        if self.recentTransactions.contains(where: { $0.Hash == tx.Hash }) {
-////            // duplicate notification, tx is already being displayed in table
-////            return
-////        }
-////
-////        tx.Animate = true
-////        self.recentTransactions.insert(tx, at: 0)
-////        self.updateCurrentBalance()
-////
-////        DispatchQueue.main.async {
-////            let maxDisplayItems = round(self.recentTransactionsTableView.frame.size.height / TransactionTableViewCell.height())
-////            if self.recentTransactions.count > Int(maxDisplayItems) {
-////                _ = self.recentTransactions.popLast()
-////            }
-////
-////            self.recentTransactionsTableView.reloadData()
-////        }
-//    }
-//
-//    func onTransactionConfirmed(_ hash: String?, height: Int32) {
-//        DispatchQueue.main.async {
-//            self.updateCurrentBalance()
-//            self.updateRecentActivity()
-//        }
-//    }
-//}
-
+// Recent transactions
 extension OverviewViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return TransactionTableViewCell.height()
