@@ -8,7 +8,7 @@
 
 import UIKit
 import Dcrlibwallet
-import SlideMenuControllerSwift
+//import SlideMenuControllerSwift
 
 class StartScreenViewController: UIViewController {
     @IBOutlet weak var label: UILabel!

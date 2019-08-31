@@ -115,6 +115,8 @@ struct LocalizedStrings {
     static let restartingSynchronization = NSLocalizedString("restartingSynchronization", comment: "")
     static let startingSynchronization = NSLocalizedString("startingSynchronization", comment: "")
     static let waitingToSync = NSLocalizedString("waitingToSync", comment: "")
+    static let syncProgressComplete = NSLocalizedString("syncProgressComplete", comment: "")
+    static let syncTimeLeft = NSLocalizedString("syncTimeLeft", comment: "")
     
     /*No Wifi Sync Connection */
     static let notConnectedToWiFi = NSLocalizedString("notConnectedToWiFi", comment: "")
@@ -148,6 +150,11 @@ struct LocalizedStrings {
     static let total = NSLocalizedString("total", comment: "")
     static let stageTimes = NSLocalizedString("stageTimes", comment: "")
     static let tapToViewInformation = NSLocalizedString("tapToViewInformation", comment: "")
+    static let showDetails = NSLocalizedString("showDetails", comment: "")
+    static let syncSteps = NSLocalizedString("syncSteps", comment: "")
+    static let connectedPeersCount = NSLocalizedString("connectedPeersCount", comment: "")
+    static let hideDetails = NSLocalizedString("hideDetails", comment: "")
+    static let syncStageDescription = NSLocalizedString("syncStageDescription", comment: "")
     
     /* Navigation Menu Items */
     static let overview = NSLocalizedString("overview", comment: "")

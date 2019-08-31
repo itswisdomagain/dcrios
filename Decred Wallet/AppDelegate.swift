@@ -8,7 +8,7 @@
 
 import CoreData
 import Dcrlibwallet
-import SlideMenuControllerSwift
+//import SlideMenuControllerSwift
 import UserNotifications
 
 // compile-time preprocessor, following code will only be added if compiling for testnet

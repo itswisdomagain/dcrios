@@ -95,6 +95,8 @@
 "bestBlockAgeAgo" = "%@ ago";
 "discoveringUsedAddresses" = "Discovering used addresses.";
 "generalSyncProgressCompletedleft" = "%d%% completed, %@ left.";
+"syncProgressComplete" = "%d%%";
+"syncTimeLeft" = "%@ left";
 "scanningBlocks" = "Scanning blocks.";
 "rescanProgress" = "%d%% completed, %@ left.";
 "syncCanceled" = "Sync canceled.";
@@ -112,8 +114,10 @@
 "restartingSynchronization" = "Restarting Synchronization";
 "startingSynchronization" = "Starting Synchronization";
 "waitingToSync" = "Waiting to sync";
+"showDetails" = "Show details";
 "transactions" = "Transactions";
 "more" = "More";
+"syncStageDescription" = "%@ - %d%%";
 
 /* No Wifi Sync Connection */
 "notConnectedToWiFi" = "Not connected to Wi-Fi. Use cellular data instead?";
@@ -129,11 +133,11 @@
 /* Sync progress view */
 "loading" = "Loading...";
 "numberOfConnectedPeers" = "Connected to %d peers";
-"numberOfConnectedPeer" = "%d peer";
+"numberOfConnectedPeer" = "%d peers";
 "syncingWithPeersOnNetwork" = "Syncing with %@ on %@.";
-"fetchedHeaders" = "Fetched %d of ~%d block headers.\n";
+"fetchedHeaders" = "%d of ~%d ";
 "headersFetchProgress" = "%d%% through step 1 of 3.";
-"bestBlockAgebehind" = "\nYour wallet is %@ behind.";
+"bestBlockAgebehind" = "%@ behind.";
 "addressDiscoveryProgressOver" = "~%d%% (over) through step 2 of 3.";
 "addressDiscoveryProgressThrough" = "~%d%% through step 2 of 3.";
 "scanningTotalHeaders" = "Scanning %d of %d block headers.\n";
@@ -148,6 +152,11 @@
 "total"  = "total:";
 "stageTimes" = "Stage Times";
 "tapToViewInformation" = "Tap for more information";
+"syncSteps" = "Step %d/3";
+"connectedPeersCount" = "Connected peers count";
+"hideDetails" = "Hide details";
+"addressDis"
+
 
 /* Navigation Menu Items */
 "overview" = "Overview";

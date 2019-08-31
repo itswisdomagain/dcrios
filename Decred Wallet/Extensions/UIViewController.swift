@@ -19,9 +19,14 @@ extension UIViewController {
         return UINavigationController(rootViewController: self)
     }
     
-//    func navigationMenuController() -> NavigationMenuController? {
-//        return
-////        return self.slideMenuController()?.leftViewController as? NavigationMenuViewController
+//    func navigationMenuController() -> TabMenuController{
+//
+//    }
+    
+//    func navigationMenuController() -> NavigationMenuBaseController {
+////        return
+//        return self.
+//        return self.slideMenuController()?.leftViewController as? NavigationMenuViewController
 //    }
     
     func setupNavigationBar(withTitle title: String) {

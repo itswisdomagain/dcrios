@@ -15,6 +15,7 @@
 		2509A6952313DC02003535F2 /* TabMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2509A6942313DC02003535F2 /* TabMenuController.swift */; };
 		2516FBEB2315C3E200ADDAFC /* SyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516FBEA2315C3E200ADDAFC /* SyncManager.swift */; };
 		2534EDBF231401B800236D8C /* TabBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2534EDBE231401B800236D8C /* TabBarItemView.swift */; };
+		2565C57423198CBA00B42DD1 /* UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2565C57323198CB900B42DD1 /* UIStackView.swift */; };
 		25AEB1C9230565A000F68DBA /* FloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEB1C8230565A000F68DBA /* FloatingLabelTextField.swift */; };
 		2A11C88FC2C6C613F50568BB /* Pods_Decred_Wallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9714AB438E597D403032748 /* Pods_Decred_Wallet.framework */; };
 		AD07C29422B927FA008F49F9 /* Segues.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD07C29322B927FA008F49F9 /* Segues.swift */; };
@@ -164,6 +165,7 @@
 		2509A6942313DC02003535F2 /* TabMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabMenuController.swift; sourceTree = "<group>"; };
 		2516FBEA2315C3E200ADDAFC /* SyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncManager.swift; sourceTree = "<group>"; };
 		2534EDBE231401B800236D8C /* TabBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemView.swift; sourceTree = "<group>"; };
+		2565C57323198CB900B42DD1 /* UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStackView.swift; sourceTree = "<group>"; };
 		25AEB1C8230565A000F68DBA /* FloatingLabelTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingLabelTextField.swift; sourceTree = "<group>"; };
 		25F34E9123080A8100A999B2 /* Decred WalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Decred WalletTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A0625AB1C6ACD2EC77F544F /* Pods-Decred Wallet.mainnet debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Decred Wallet.mainnet debug.xcconfig"; path = "Target Support Files/Pods-Decred Wallet/Pods-Decred Wallet.mainnet debug.xcconfig"; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 				B3A3EF87229375D100008A4E /* Date.swift */,
 				B36EFD352298617C002753B2 /* UIButton.swift */,
 				B3967B3C22A75BD400E14432 /* UITableView.swift */,
+				2565C57323198CB900B42DD1 /* UIStackView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -991,6 +994,7 @@
 				B3B46A25228F0F2700A68EDD /* TransactionHistoryViewController.swift in Sources */,
 				B3A3EF8B22937B8800008A4E /* Settings.swift in Sources */,
 				B3B46AC8228F120700A68EDD /* TransactionDetailCell.swift in Sources */,
+				2565C57423198CBA00B42DD1 /* UIStackView.swift in Sources */,
 				B3B46A1B228F0F2700A68EDD /* SecurityViewController.swift in Sources */,
 				B3B46993228F0C2E00A68EDD /* AppDelegate.swift in Sources */,
 				B3B46A12228F0F2700A68EDD /* TextFieldDoneButton.swift in Sources */,
