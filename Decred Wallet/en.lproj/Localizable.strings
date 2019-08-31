@@ -118,6 +118,8 @@
 "transactions" = "Transactions";
 "more" = "More";
 "syncStageDescription" = "%@ - %d%%";
+"latestBlockAge" = "Latest block %d% - ~%@";
+"blockHeadersFetched" = "Block headers fetched";
 
 /* No Wifi Sync Connection */
 "notConnectedToWiFi" = "Not connected to Wi-Fi. Use cellular data instead?";
@@ -155,6 +157,7 @@
 "syncSteps" = "Step %d/3";
 "connectedPeersCount" = "Connected peers count";
 "hideDetails" = "Hide details";
+"syncingProgress" = "Syncing progress";
 
 /* Navigation Menu Items */
 "overview" = "Overview";

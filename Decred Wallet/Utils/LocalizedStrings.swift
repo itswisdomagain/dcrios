@@ -155,6 +155,9 @@ struct LocalizedStrings {
     static let connectedPeersCount = NSLocalizedString("connectedPeersCount", comment: "")
     static let hideDetails = NSLocalizedString("hideDetails", comment: "")
     static let syncStageDescription = NSLocalizedString("syncStageDescription", comment: "")
+    static let latestBlockAge = NSLocalizedString("latestBlockAge", comment: "")
+    static let blockHeadersFetched = NSLocalizedString("blockHeadersFetched", comment: "")
+    static let syncingProgress = NSLocalizedString("syncingProgress", comment: "")
     
     /* Navigation Menu Items */
     static let overview = NSLocalizedString("overview", comment: "")

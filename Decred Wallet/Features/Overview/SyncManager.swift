@@ -29,8 +29,8 @@ class SyncManager{
     let peers: Signal = Signal<Int32>()
     let newTransaction = Signal<Transaction>()
     let syncProgress = Signal<DcrlibwalletGeneralSyncProgress>()
-    
     let syncStage = Signal<(Int, Any?)>()
+    let headerFetchProgress = Signal<DcrlibwalletHeadersFetchProgressReport>()
 
     init() {
 //        super.init()
@@ -67,8 +67,8 @@ extension SyncManager: SyncProgressListenerProtocol{
     
     func onHeadersFetchProgress(_ progressReport: DcrlibwalletHeadersFetchProgressReport) {
         let progress = Float(progressReport.headersFetchProgress) / 100.0
-        
         self.syncStage => (1, String(format: LocalizedStrings.syncStageDescription, LocalizedStrings.fetchingBlockHeaders, progress))
+        self.headerFetchProgress => progressReport
     }
     
     func onAddressDiscoveryProgress(_ progressReport: DcrlibwalletAddressDiscoveryProgressReport) {

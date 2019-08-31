@@ -94,8 +94,8 @@ class OverviewViewController: UIViewController {
             if self.isSyncing{
                 self.showSyncStatus()
                 self.showSyncStatusButton.isHidden = false
-            }
-            if !showSyncStatusButton.isHidden{
+            }else{
+                self.hideSyncStatus()
                 self.showSyncStatusButton.isHidden = true
             }
         }
@@ -290,6 +290,9 @@ class OverviewViewController: UIViewController {
             self.connectionStatusLabel.isHidden = false
         }
         
+        let blockAge = self.setBestBlockAge()
+        let bestBlock = AppDelegate.walletLoader.wallet!.getBestBlock()
+        self.latestBlockLabel.text = String(format: LocalizedStrings.latestBlockAge, bestBlock, blockAge)
     }
     
     func updateCurrentBalance() {
@@ -344,54 +347,123 @@ class OverviewViewController: UIViewController {
         let detailsContainerView = UIView(frame: CGRect.zero)
         detailsContainerView.layer.backgroundColor = UIColor.white.cgColor
         
-        // Components for syncdetails view
-        var stepLabel = UILabel(frame: CGRect.zero)
-        var blockProgressLabel = UILabel(frame: CGRect.zero)
-        
         // Inner component holding full details
-        var detailsView = UIView(frame: CGRect.zero)
-        var stepsLabel = UILabel(frame: CGRect.zero)
-        var stepDetailLabel = UILabel(frame: CGRect.zero)
-        var headersFetchedCount = UILabel(frame: CGRect.zero)
-        var syncProgressLabel = UILabel(frame: CGRect.zero)
-        var syncProgressCount = UILabel(frame: CGRect.zero)
-        var connectedPeersLabel = UILabel(frame: CGRect.zero)
-        var connectedPeerCount = UILabel(frame: CGRect.zero)
+        let detailsView = UIView(frame: CGRect.zero), stepsLabel = UILabel(frame: CGRect.zero), stepDetailLabel = UILabel(frame: CGRect.zero), headersFetchedLabel = UILabel(frame: CGRect.zero), headersFetchedCount = UILabel(frame: CGRect.zero), syncProgressLabel = UILabel(frame: CGRect.zero), syncProgressCount = UILabel(frame: CGRect.zero), connectedPeersLabel = UILabel(frame: CGRect.zero), connectedPeerCount = UILabel(frame: CGRect.zero)
         
-        stepsLabel.font = UIFont(name: "Source Sans Pro", size: 14)
-        stepLabel.text = String(format: LocalizedStrings.syncSteps, 0)
+        stepsLabel.font = UIFont(name: "Source Sans Pro", size: 13)
+        stepsLabel.text = String(format: LocalizedStrings.syncSteps, 0)
         
         stepDetailLabel.font = UIFont(name: "Source Sans Pro", size: 14)
         stepDetailLabel.text = ""
-//        stepLabel.sizeToFit()
         
-        detailsContainerView.addSubview(stepLabel)
+        detailsView.layer.backgroundColor = UIColor.init(hex: "#f3f5f6").cgColor
+        detailsView.layer.cornerRadius = 8
+        // fetched headers text
+        headersFetchedLabel.font = UIFont(name: "Source Sans Pro", size: 14)
+        headersFetchedLabel.text = LocalizedStrings.blockHeadersFetched
+        headersFetchedLabel.translatesAutoresizingMaskIntoConstraints = false
+        // Fetched headers count
+        headersFetchedCount.font = UIFont(name: "Source Sans Pro", size: 14)
+        headersFetchedCount.text = ""
+        headersFetchedCount.translatesAutoresizingMaskIntoConstraints = false
+        headersFetchedCount.clipsToBounds = true
+        
+        // Syncing progress text
+        syncProgressLabel.font = UIFont(name: "Source Sans Pro", size: 14)
+        syncProgressLabel.text = LocalizedStrings.syncingProgress
+        syncProgressLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        // block age behind
+        syncProgressCount.font = UIFont(name: "Source Sans Pro", size: 14)
+        syncProgressCount.text = ""
+        syncProgressCount.translatesAutoresizingMaskIntoConstraints = false
+        syncProgressCount.clipsToBounds = true
+        
+        // Connected peers
+        connectedPeersLabel.font = UIFont(name: "Source Sans Pro", size: 14)
+        connectedPeersLabel.text = LocalizedStrings.connectedPeersCount
+        connectedPeersLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        // show connected peers count
+        connectedPeerCount.font = UIFont(name: "Source Sans Pro", size: 14)
+        connectedPeerCount.text = "0"
+        connectedPeerCount.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Add them  to the detailsview
+        detailsView.addSubview(headersFetchedLabel)
+        detailsView.addSubview(headersFetchedCount) // %headersFetched% of %total haeader%
+        detailsView.addSubview(syncProgressLabel) // SYncing progress
+        detailsView.addSubview(syncProgressCount) // days behind count
+        detailsView.addSubview(connectedPeersLabel) // Connected peers count label
+        detailsView.addSubview(connectedPeerCount)
+        
+        // Add all components to superview
+        detailsContainerView.addSubview(stepsLabel)
         detailsContainerView.addSubview(stepDetailLabel)
-        stepLabel.translatesAutoresizingMaskIntoConstraints = false
+        detailsContainerView.addSubview(detailsView)
+        stepsLabel.translatesAutoresizingMaskIntoConstraints = false
         stepDetailLabel.translatesAutoresizingMaskIntoConstraints = false
+        detailsView.translatesAutoresizingMaskIntoConstraints = false
         
         
         let constraints = [
             detailsContainerView.heightAnchor.constraint(equalToConstant: 188),
-            stepLabel.heightAnchor.constraint(equalToConstant: 14),
-            stepLabel.topAnchor.constraint(equalTo: detailsContainerView.topAnchor, constant: -21),
-            stepLabel.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor, constant: 16),
+            stepsLabel.heightAnchor.constraint(equalToConstant: 14),
+            stepsLabel.topAnchor.constraint(equalTo: detailsContainerView.topAnchor, constant: -21),
+            stepsLabel.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor, constant: 16),
             stepDetailLabel.topAnchor.constraint(equalTo: detailsContainerView.topAnchor, constant: -20),
             stepDetailLabel.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor, constant: -16),
+            stepDetailLabel.heightAnchor.constraint(equalToConstant: 16),
+            
+            detailsView.heightAnchor.constraint(equalToConstant: 112),
+            detailsView.topAnchor.constraint(equalTo: stepDetailLabel.bottomAnchor, constant: 20.0),
+            detailsView.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor, constant: 16),
+            detailsView.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor, constant: -16),
+            detailsView.bottomAnchor.constraint(equalTo: showSyncStatusButton.topAnchor, constant: -20),
+            
+            headersFetchedLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor, constant: 16),
+            headersFetchedLabel.topAnchor.constraint(equalTo: detailsView.topAnchor, constant: 17),
+            headersFetchedCount.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor, constant: -16),
+            headersFetchedCount.topAnchor.constraint(equalTo: detailsView.topAnchor, constant: 17),
+            headersFetchedCount.heightAnchor.constraint(equalToConstant: 16),
+            
+            syncProgressLabel.heightAnchor.constraint(equalToConstant: 16),
+            syncProgressLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor, constant: 16),
+            syncProgressLabel.topAnchor.constraint(equalTo: headersFetchedLabel.bottomAnchor, constant: 18),
+            syncProgressCount.topAnchor.constraint(equalTo: headersFetchedCount.bottomAnchor, constant: 16),
+            syncProgressCount.heightAnchor.constraint(equalToConstant: 16),
+            syncProgressCount.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor, constant: -16),
+            
+            connectedPeersLabel.heightAnchor.constraint(equalToConstant: 16),
+            connectedPeersLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor, constant: 16),
+            connectedPeersLabel.topAnchor.constraint(equalTo: syncProgressLabel.bottomAnchor, constant: 18),
+            connectedPeerCount.topAnchor.constraint(equalTo: syncProgressCount.bottomAnchor, constant: 16),
+            connectedPeerCount.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor, constant: -16),
+            connectedPeerCount.heightAnchor.constraint(equalToConstant: 15),
+            
+            
         ]
         
         
         syncManager.syncStage.subscribe(with: self){ (stage, reporText) in
-            
-            stepLabel.text = String(format: LocalizedStrings.syncSteps, stage)
+            stepsLabel.text = String(format: LocalizedStrings.syncSteps, stage)
             
             if reporText != nil{
                 stepDetailLabel.text = reporText as? String
             }
         }
         
+        syncManager.headerFetchProgress.subscribe(with: self){ (progressReport) in
+            headersFetchedCount.text = String(format: LocalizedStrings.fetchedHeaders, progressReport.fetchedHeadersCount, progressReport.totalHeadersToFetch)
+            if progressReport.bestBlockAge != "" {
+                syncProgressCount.text = String(format: LocalizedStrings.bestBlockAgebehind, progressReport.bestBlockAge)
+            }
+        }
+        
+        syncManager.peers.subscribe(with: self){ (peers) in
+            connectedPeerCount.text = String(peers)
+        }
         return (detailsContainerView, constraints)
-//        stepsLabel.text = String(format: LocalizedStrings, 0, 0)
     }
     
     func showNoTransactions() {
@@ -400,6 +472,46 @@ class OverviewViewController: UIViewController {
         label.textAlignment = .center
         self.recentTransactionsTableView.backgroundView = label
         self.recentTransactionsTableView.separatorStyle = .none
+    }
+    
+    func setBestBlockAge() -> String {
+        if AppDelegate.walletLoader.wallet!.isScanning() {
+            return ""
+        }
+        
+        let bestBlockAge = Int64(Date().timeIntervalSince1970) - AppDelegate.walletLoader.wallet!.getBestBlockTimeStamp()
+        
+        switch bestBlockAge {
+        case Int64.min...0:
+            return LocalizedStrings.now
+            
+        case 0..<Utils.TimeInSeconds.Minute:
+            return String(format: LocalizedStrings.secondsAgo, bestBlockAge)
+            
+        case Utils.TimeInSeconds.Minute..<Utils.TimeInSeconds.Hour:
+            let minutes = bestBlockAge / Utils.TimeInSeconds.Minute
+            return String(format: LocalizedStrings.minAgo, minutes)
+            
+        case Utils.TimeInSeconds.Hour..<Utils.TimeInSeconds.Day:
+            let hours = bestBlockAge / Utils.TimeInSeconds.Hour
+            return String(format: LocalizedStrings.hrsAgo, hours)
+            
+        case Utils.TimeInSeconds.Day..<Utils.TimeInSeconds.Week:
+            let days = bestBlockAge / Utils.TimeInSeconds.Day
+            return String(format: LocalizedStrings.daysAgo, days)
+            
+        case Utils.TimeInSeconds.Week..<Utils.TimeInSeconds.Month:
+            let weeks = bestBlockAge / Utils.TimeInSeconds.Week
+            return String(format: LocalizedStrings.weeksAgo, weeks)
+            
+        case Utils.TimeInSeconds.Month..<Utils.TimeInSeconds.Year:
+            let months = bestBlockAge / Utils.TimeInSeconds.Month
+            return String(format: LocalizedStrings.monthsAgo, months)
+            
+        default:
+            let years = bestBlockAge / Utils.TimeInSeconds.Year
+            return String(format: LocalizedStrings.yearsAgo, years)
+        }
     }
     
 }
