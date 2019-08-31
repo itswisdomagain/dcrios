@@ -155,8 +155,6 @@
 "syncSteps" = "Step %d/3";
 "connectedPeersCount" = "Connected peers count";
 "hideDetails" = "Hide details";
-"addressDis"
-
 
 /* Navigation Menu Items */
 "overview" = "Overview";

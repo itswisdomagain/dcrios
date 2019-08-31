@@ -39,7 +39,7 @@ class TransactionFullDetailsViewController: UIViewController, UITableViewDataSou
         tableTransactionDetails.registerCellNib(TransactiontInputDetails.self)
         
         self.removeNavigationBarItem()
-        self.slideMenuController()?.removeLeftGestures()
+//        self.slideMenuController()?.removeLeftGestures()
     }
     
     @objc func backk(){

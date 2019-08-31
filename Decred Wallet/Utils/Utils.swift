@@ -8,7 +8,7 @@
 
 import UIKit
 import JGProgressHUD
-import SlideMenuControllerSwift
+//import SlideMenuControllerSwift
 
 struct Utils {
     struct TimeInSeconds {
