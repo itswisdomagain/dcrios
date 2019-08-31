@@ -73,7 +73,13 @@ class OverviewViewController: UIViewController {
     }
     @IBOutlet weak var latestBlockLabel: UILabel!
     @IBOutlet weak var connectionStatusLabel: UILabel!
-    
+    @IBOutlet weak var showSyncStatusButton: UIButton!{
+        didSet{
+            if !isSyncing{
+                self.showSyncStatusButton.isHidden = true
+            }
+        }
+    }
     
     var recentTransactions = [Transaction](){
         didSet{
@@ -87,30 +93,23 @@ class OverviewViewController: UIViewController {
         didSet{
             if self.isSyncing{
                 self.showSyncStatus()
+                self.showSyncStatusButton.isHidden = false
+            }
+            if !showSyncStatusButton.isHidden{
+                self.showSyncStatusButton.isHidden = true
             }
         }
     }
     
     var syncToggle: Bool = false{
         didSet{
-            if !syncToggle{
-                self.hideSyncStatus()
+            if syncToggle{
+                handleShowSyncDetails()
+            }else{
+                handleHideSyncDetails()
             }
         }
     }
-    
-//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-//        if identifier == "embedSyncProgressVC" && AppDelegate.walletLoader.isSynced {
-//            return false
-//        }
-//        return true
-//    }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "embedSyncProgressVC" {
-//            (segue.destination as! SyncProgressViewController).afterSyncCompletes = self.initializeOverviewContent
-//        }
-//    }
     
     override func viewDidLoad() {
         self.setupInterface()
@@ -122,7 +121,6 @@ class OverviewViewController: UIViewController {
         }
         
         syncManager.status.subscribe(with: self){ (status, error) in
-//            let (status, error) = arg
             DispatchQueue.main.async {
                 self.updateSync(status: status, error: error)
             }
@@ -166,13 +164,17 @@ class OverviewViewController: UIViewController {
         
         // show transactions button action
         seeAllTransactionsButton.addTarget(self, action: #selector(self.handleShowAllTransactions), for: .touchUpInside)
+        // man
+        showSyncStatusButton.titleLabel!.font = UIFont(name: "Source Sans Pro", size: 16.0)
+        showSyncStatusButton.setTitle(LocalizedStrings.showDetails, for: .normal)
+        showSyncStatusButton.setTitleColor(UIColor.appColors.decredBlue, for: .normal)
+        showSyncStatusButton.addBorder(atPosition: .top, color: UIColor.appColors.lightGray, thickness: 0.4)
+        showSyncStatusButton.addTarget(self, action: #selector(self.handleShowSyncToggle), for: .touchUpInside)
         
         let pullToRefreshControl = UIRefreshControl()
         pullToRefreshControl.addTarget(self, action: #selector(self.handleRecentActivityTableRefresh(_:)), for: UIControl.Event.valueChanged)
         pullToRefreshControl.tintColor = UIColor.lightGray
         self.recentTransactionsTableView.addSubview(pullToRefreshControl)
-        
-        
     }
     
     func updateRecentActivity(){
@@ -247,25 +249,15 @@ class OverviewViewController: UIViewController {
         let timeLeft = UILabel(frame: CGRect.zero)
         timeLeft.font = UIFont(name: "Source Sans Pro", size: 16.0)
         timeLeft.clipsToBounds = true
-        // See sync details buttons
-        let showDetailsButton = UIButton(frame: CGRect(x: 0, y: 0, width: syncStatusView.frame.size.width, height: 48))
-        showDetailsButton.clipsToBounds = true
-        showDetailsButton.titleLabel!.font = UIFont(name: "Source Sans Pro", size: 16.0)
-        showDetailsButton.backgroundColor = UIColor.white
-        showDetailsButton.setTitle(LocalizedStrings.showDetails, for: .normal)
-        showDetailsButton.setTitleColor(UIColor.appColors.decredBlue, for: .normal)
-        showDetailsButton.addBorder(atPosition: .top, color: UIColor.appColors.lightGray, thickness: 0.4)
-        showDetailsButton.addTarget(self, action: #selector(self.handleShowSyncDetails), for: .touchUpInside)
         
         self.walletStatusSection.addSubview(syncProgress)
         self.walletStatusSection.addSubview(percentage)
         self.walletStatusSection.addSubview(timeLeft)
-        self.walletStatusSection.addArrangedSubview(showDetailsButton)
         
         syncProgress.translatesAutoresizingMaskIntoConstraints = false
         timeLeft.translatesAutoresizingMaskIntoConstraints = false
         percentage.translatesAutoresizingMaskIntoConstraints = false
-        showDetailsButton.translatesAutoresizingMaskIntoConstraints = false
+
         
         let constraints = [
             syncProgress.heightAnchor.constraint(equalToConstant: 8.0),
@@ -278,11 +270,6 @@ class OverviewViewController: UIViewController {
             timeLeft.heightAnchor.constraint(equalToConstant: 16),
             timeLeft.trailingAnchor.constraint(equalTo: self.walletStatusSection.trailingAnchor, constant: -31),
             timeLeft.topAnchor.constraint(equalTo: syncProgress.bottomAnchor, constant: 8),
-            showDetailsButton.heightAnchor.constraint(equalToConstant: 48),
-            showDetailsButton.widthAnchor.constraint(equalToConstant: syncStatusView.frame.width),
-            showDetailsButton.bottomAnchor.constraint(equalTo: walletStatusSection.bottomAnchor),
-            showDetailsButton.leadingAnchor.constraint(equalTo: syncStatusView.leadingAnchor),
-            showDetailsButton.trailingAnchor.constraint(equalTo: syncStatusView.trailingAnchor),
             
         ]
         
@@ -297,9 +284,8 @@ class OverviewViewController: UIViewController {
     }
     
     func hideSyncStatus(){
-//        self.walletStatusSection.frame = CGRect(x: walletStatusSection.frame.minX, y: walletStatusSection.frame.minY, width: walletStatusSection.frame.size.width, height: 162)
         UIView.animate(withDuration: 2.0){
-            self.walletStatusSection.subviews.forEach({$0.removeFromSuperview()})
+        self.walletStatusSection.subviews.forEach({$0.removeFromSuperview()})
             self.latestBlockLabel.isHidden = false
             self.connectionStatusLabel.isHidden = false
         }
@@ -325,8 +311,15 @@ class OverviewViewController: UIViewController {
         }
     }
     
-    @objc func handleShowSyncDetails(){
-//        index(before i: Int)
+    @objc func handleShowSyncToggle(){
+        if self.syncToggle{
+            self.syncToggle = false
+        }else{
+            self.syncToggle = true
+        }
+    }
+    
+    func handleShowSyncDetails(){
         let syncDetailsComponent = self.syncDetailsComponent()
         let position = self.walletStatusSection.arrangedSubviews.index(before: self.walletStatusSection.arrangedSubviews.endIndex)
         UIView.animate(withDuration: 4.3){
@@ -335,10 +328,14 @@ class OverviewViewController: UIViewController {
             syncDetailsComponent.0.heightAnchor.constraint(equalToConstant: 188.0).isActive = true
             NSLayoutConstraint.activate(syncDetailsComponent.1)
         }
+        showSyncStatusButton.setTitle(LocalizedStrings.hideDetails, for: .normal)
     }
     
-    @objc func handleHideSyncDetails(){
-//        index(before i: Int)
+    func handleHideSyncDetails(){
+        UIView.animate(withDuration: 4.3){ self.walletStatusSection.arrangedSubviews[2].removeFromSuperview()
+
+        }
+        showSyncStatusButton.setTitle(LocalizedStrings.showDetails, for: .normal)
     }
     
     

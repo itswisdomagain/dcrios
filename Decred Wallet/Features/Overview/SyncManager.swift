@@ -82,8 +82,9 @@ extension SyncManager: SyncProgressListenerProtocol{
         if progressReport.generalSyncProgress == nil{
             return
         }else{
+            let progress = Float(progressReport.rescanProgress) / 100.0
             self.syncProgress => progressReport.generalSyncProgress!
-            self.syncStage => (3, nil)
+            self.syncStage => (3, String(format: LocalizedStrings.syncStageDescription, LocalizedStrings.scanningBlocks, progress))
         }
         
     }
