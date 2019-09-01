@@ -10,12 +10,7 @@ import UIKit
 
 class OverviewViewController: UIViewController {
     // Stacked views (so we can add items if needed)
-    @IBOutlet weak var transactionHistorySection: UIStackView!{
-        didSet{
-            transactionHistorySection.layer.backgroundColor = UIColor.white.cgColor
-            transactionHistorySection.cornerRadius(15)
-        }
-    }
+    @IBOutlet weak var transactionHistorySection: UIStackView!
     @IBOutlet weak var walletStatusSection: UIStackView!
     
     // MARK: - Title Labels
@@ -149,6 +144,19 @@ class OverviewViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         view.backgroundColor = UIColor(red: 0.95, green: 0.96, blue: 0.96, alpha: 1)
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+       
+        DispatchQueue.main.async {
+            self.transactionHistorySection.layer.backgroundColor = UIColor.white.cgColor
+            self.transactionHistorySection.cornerRadius(18)
+            
+            self.walletStatusSection.layer.backgroundColor = UIColor.white.cgColor
+            self.walletStatusSection.cornerRadius(18)
+            
+        }
     }
     
     func setupInterface(){
