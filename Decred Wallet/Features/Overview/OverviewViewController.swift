@@ -164,7 +164,7 @@ class OverviewViewController: UIViewController {
         
         // show transactions button action
         seeAllTransactionsButton.addTarget(self, action: #selector(self.handleShowAllTransactions), for: .touchUpInside)
-        // man
+
         showSyncStatusButton.titleLabel!.font = UIFont(name: "Source Sans Pro", size: 16.0)
         showSyncStatusButton.setTitle(LocalizedStrings.showDetails, for: .normal)
         showSyncStatusButton.setTitleColor(UIColor.appColors.decredBlue, for: .normal)
@@ -395,7 +395,7 @@ class OverviewViewController: UIViewController {
         detailsView.addSubview(syncProgressLabel) // SYncing progress
         detailsView.addSubview(syncProgressCount) // days behind count
         detailsView.addSubview(connectedPeersLabel) // Connected peers count label
-        detailsView.addSubview(connectedPeerCount)
+        detailsView.addSubview(connectedPeerCount) // number of connected peers
         
         // Add all components to superview
         detailsContainerView.addSubview(stepsLabel)
@@ -417,15 +417,17 @@ class OverviewViewController: UIViewController {
             
             detailsView.heightAnchor.constraint(equalToConstant: 112),
             detailsView.topAnchor.constraint(equalTo: stepDetailLabel.bottomAnchor, constant: 20.0),
+            detailsView.bottomAnchor.constraint(equalTo: detailsContainerView.bottomAnchor, constant: -20),
             detailsView.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor, constant: 16),
             detailsView.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor, constant: -16),
-            detailsView.bottomAnchor.constraint(equalTo: showSyncStatusButton.topAnchor, constant: -20),
+            
             
             headersFetchedLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor, constant: 16),
             headersFetchedLabel.topAnchor.constraint(equalTo: detailsView.topAnchor, constant: 17),
+            headersFetchedLabel.heightAnchor.constraint(equalToConstant: 16),
             headersFetchedCount.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor, constant: -16),
             headersFetchedCount.topAnchor.constraint(equalTo: detailsView.topAnchor, constant: 17),
-            headersFetchedCount.heightAnchor.constraint(equalToConstant: 16),
+            headersFetchedCount.heightAnchor.constraint(equalTo: headersFetchedLabel.heightAnchor),
             
             syncProgressLabel.heightAnchor.constraint(equalToConstant: 16),
             syncProgressLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor, constant: 16),
@@ -440,8 +442,6 @@ class OverviewViewController: UIViewController {
             connectedPeerCount.topAnchor.constraint(equalTo: syncProgressCount.bottomAnchor, constant: 16),
             connectedPeerCount.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor, constant: -16),
             connectedPeerCount.heightAnchor.constraint(equalToConstant: 15),
-            
-            
         ]
         
         
@@ -455,8 +455,10 @@ class OverviewViewController: UIViewController {
         
         syncManager.headerFetchProgress.subscribe(with: self){ (progressReport) in
             headersFetchedCount.text = String(format: LocalizedStrings.fetchedHeaders, progressReport.fetchedHeadersCount, progressReport.totalHeadersToFetch)
+            headersFetchedCount.sizeToFit()
             if progressReport.bestBlockAge != "" {
                 syncProgressCount.text = String(format: LocalizedStrings.bestBlockAgebehind, progressReport.bestBlockAge)
+                syncProgressCount.sizeToFit()
             }
         }
         
