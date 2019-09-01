@@ -20,8 +20,6 @@ enum syncStatus{
 
 class SyncManager{
     
-//    static var shared = SyncManager()
-    
     var netType: String?
     static var shared = SyncManager()
     

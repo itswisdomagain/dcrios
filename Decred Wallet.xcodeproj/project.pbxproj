@@ -647,7 +647,6 @@
 				DDCF259922B8A346005FCBB9 /* Overview.storyboard */,
 				B3B469F1228F0F2600A68EDD /* OverviewViewController.swift */,
 				B3B469F0228F0F2600A68EDD /* SyncProgressViewController.swift */,
-				2516FBEA2315C3E200ADDAFC /* SyncManager.swift */,
 			);
 			path = Overview;
 			sourceTree = "<group>";
@@ -660,6 +659,7 @@
 				B3B469F6228F0F2600A68EDD /* WalletLoader.swift */,
 				B3B469F7228F0F2600A68EDD /* SpendingPinOrPassword.swift */,
 				B3B469F9228F0F2600A68EDD /* StartupPinOrPassword.swift */,
+				2516FBEA2315C3E200ADDAFC /* SyncManager.swift */,
 				B3D21C9E2296E4F000609F23 /* ExchangeRates.swift */,
 			);
 			path = "Wallet Utils";
