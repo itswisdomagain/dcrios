@@ -30,7 +30,7 @@ class OverviewViewController: UIViewController {
     // MARK: - Recent Transactions
     @IBOutlet weak var recentTransactionsLabelView: UIView!{
         didSet{
-            self.recentTransactionsLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: self.recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.52)
+            self.recentTransactionsLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: self.recentTransactionsLabelView.frame.maxY-2, borderHeight: 0.52)
         }
         
     }
@@ -155,7 +155,6 @@ class OverviewViewController: UIViewController {
             
             self.walletStatusSection.layer.backgroundColor = UIColor.white.cgColor
             self.walletStatusSection.cornerRadius(18)
-            
         }
     }
     
@@ -176,7 +175,7 @@ class OverviewViewController: UIViewController {
         showSyncStatusButton.titleLabel!.font = UIFont(name: "Source Sans Pro", size: 16.0)
         showSyncStatusButton.setTitle(LocalizedStrings.showDetails, for: .normal)
         showSyncStatusButton.setTitleColor(UIColor.appColors.decredBlue, for: .normal)
-        showSyncStatusButton.addBorder(atPosition: .top, color: UIColor.appColors.lightGray, thickness: 0.4)
+        showSyncStatusButton.addBorder(atPosition: .top, color: UIColor.appColors.lightGray, thickness: 0.5)
         showSyncStatusButton.addTarget(self, action: #selector(self.handleShowSyncToggle), for: .touchUpInside)
         
         let pullToRefreshControl = UIRefreshControl()
@@ -209,6 +208,7 @@ class OverviewViewController: UIViewController {
             syncStatusLabel.text = (AppDelegate.walletLoader.isSynced) ? LocalizedStrings.walletSynced : LocalizedStrings.walletNotSynced
             syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
             self.hideSyncStatus()
+            self.handleHideSyncDetails()
             break
         case .failed:
             if self.isSyncing{
@@ -233,7 +233,7 @@ class OverviewViewController: UIViewController {
             break
         }
     }
-    
+    // Show sync status progress bar
     func showSyncStatus(){
         self.onlineIndicator.layer.backgroundColor = UIColor.appColors.decredGreen.cgColor
         self.onlineStatusLabel.text = LocalizedStrings.online
@@ -258,9 +258,9 @@ class OverviewViewController: UIViewController {
         timeLeft.font = UIFont(name: "Source Sans Pro", size: 16.0)
         timeLeft.clipsToBounds = true
         
-        self.syncStatusView.addSubview(syncProgress)
-        self.syncStatusView.addSubview(percentage)
-        self.syncStatusView.addSubview(timeLeft)
+        self.walletStatusSection.addSubview(syncProgress)
+        self.walletStatusSection.addSubview(percentage)
+        self.walletStatusSection.addSubview(timeLeft)
         
         syncProgress.translatesAutoresizingMaskIntoConstraints = false
         timeLeft.translatesAutoresizingMaskIntoConstraints = false
@@ -290,17 +290,20 @@ class OverviewViewController: UIViewController {
             syncProgress.progress = Float(progressReport.totalSyncProgress) / 100.0
         }
     }
-    
+    // hide sync status progressbar and time
     func hideSyncStatus(){
-        UIView.animate(withDuration: 2.0){
-            if self.syncStatusView.subviews.count > 2{
-                for i in 4 ..< self.syncStatusView.subviews.count-1{
-                    self.syncStatusView.subviews[i].removeFromSuperview()
+        print("subviews: \(walletStatusSection.subviews.count)")
+        print("arrainged: \(walletStatusSection.arrangedSubviews.count)")
+        if self.walletStatusSection.subviews.count > 3{
+            UIView.animate(withDuration: 2.0){
+                for i in 3 ..< 4{
+                    self.walletStatusSection.subviews[i].removeFromSuperview()
                 }
+                self.latestBlockLabel.isHidden = false
+                self.connectionStatusLabel.isHidden = false
             }
-            self.latestBlockLabel.isHidden = false
-            self.connectionStatusLabel.isHidden = false
         }
+
         let blockAge = self.setBestBlockAge()
         let bestBlock = AppDelegate.walletLoader.wallet!.getBestBlock()
         self.latestBlockLabel.text = String(format: LocalizedStrings.latestBlockAge, bestBlock, blockAge)
@@ -338,23 +341,25 @@ class OverviewViewController: UIViewController {
         let syncDetailsComponent = self.syncDetailsComponent()
         let position = self.walletStatusSection.arrangedSubviews.index(before: self.walletStatusSection.arrangedSubviews.endIndex)
         UIView.animate(withDuration: 4.3){
-            self.walletStatusSection.insertArrangedSubview(syncDetailsComponent.0, at: position)
-            syncDetailsComponent.0.topAnchor.constraint(equalTo: self.syncStatusView.bottomAnchor).isActive = true
-            syncDetailsComponent.0.heightAnchor.constraint(equalToConstant: 188.0).isActive = true
-            NSLayoutConstraint.activate(syncDetailsComponent.1)
+            self.walletStatusSection.insertArrangedSubview(syncDetailsComponent.view, at: position)
+            syncDetailsComponent.view.topAnchor.constraint(equalTo: self.syncStatusView.bottomAnchor).isActive = true
+            syncDetailsComponent.view.heightAnchor.constraint(equalToConstant: 188.0).isActive = true
+            NSLayoutConstraint.activate(syncDetailsComponent.constraints)
         }
         showSyncStatusButton.setTitle(LocalizedStrings.hideDetails, for: .normal)
     }
     // Hide sync details on "hide details" button click or on sync completion
     func handleHideSyncDetails(){
-        UIView.animate(withDuration: 4.3){ self.walletStatusSection.arrangedSubviews[2].removeFromSuperview()
-
+        if self.walletStatusSection.arrangedSubviews.indices.contains(2){
+            UIView.animate(withDuration: 4.3){
+                self.walletStatusSection.arrangedSubviews[2].removeFromSuperview()
+            }
         }
         showSyncStatusButton.setTitle(LocalizedStrings.showDetails, for: .normal)
     }
     
-    
-    func syncDetailsComponent() -> (UIView, [NSLayoutConstraint]){
+    // Sync details view
+    func syncDetailsComponent() -> (view: UIView, constraints: [NSLayoutConstraint]){
         // containing view for details
         let detailsContainerView = UIView(frame: CGRect.zero)
         detailsContainerView.layer.backgroundColor = UIColor.white.cgColor
@@ -419,7 +424,7 @@ class OverviewViewController: UIViewController {
         
         
         let constraints = [
-            detailsContainerView.heightAnchor.constraint(equalToConstant: 188),
+            detailsContainerView.heightAnchor.constraint(equalToConstant: 120),
             stepsLabel.heightAnchor.constraint(equalToConstant: 14),
             stepsLabel.topAnchor.constraint(equalTo: detailsContainerView.topAnchor, constant: -21),
             stepsLabel.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor, constant: 16),
@@ -432,7 +437,6 @@ class OverviewViewController: UIViewController {
             detailsView.bottomAnchor.constraint(equalTo: detailsContainerView.bottomAnchor, constant: -20),
             detailsView.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor, constant: 16),
             detailsView.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor, constant: -16),
-            
             
             headersFetchedLabel.leadingAnchor.constraint(equalTo: detailsView.leadingAnchor, constant: 16),
             headersFetchedLabel.topAnchor.constraint(equalTo: detailsView.topAnchor, constant: 17),
@@ -455,7 +459,6 @@ class OverviewViewController: UIViewController {
             connectedPeerCount.trailingAnchor.constraint(equalTo: detailsView.trailingAnchor, constant: -16),
             connectedPeerCount.heightAnchor.constraint(equalToConstant: 15),
         ]
-        
         
         syncManager.syncStage.subscribe(with: self){ (stage, reporText) in
             stepsLabel.text = String(format: LocalizedStrings.syncSteps, stage)
