@@ -332,6 +332,7 @@ class OverviewViewController: UIViewController {
             self.syncToggle = true
         }
     }
+    
     // Show sync details on user click "show details" button while syncing
     func handleShowSyncDetails(){
         let syncDetailsComponent = self.syncDetailsComponent()
@@ -344,7 +345,7 @@ class OverviewViewController: UIViewController {
         }
         showSyncStatusButton.setTitle(LocalizedStrings.hideDetails, for: .normal)
     }
-    
+    // Hide sync details on "hide details" button click or on sync completion
     func handleHideSyncDetails(){
         UIView.animate(withDuration: 4.3){ self.walletStatusSection.arrangedSubviews[2].removeFromSuperview()
 

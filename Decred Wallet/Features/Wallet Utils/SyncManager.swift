@@ -67,6 +67,7 @@ extension SyncManager: SyncProgressListenerProtocol{
         let progress = Float(progressReport.headersFetchProgress) / 100.0
         self.syncStage => (1, String(format: LocalizedStrings.syncStageDescription, LocalizedStrings.fetchingBlockHeaders, progress))
         self.headerFetchProgress => progressReport
+        self.syncProgress => progressReport.generalSyncProgress!
     }
     
     func onAddressDiscoveryProgress(_ progressReport: DcrlibwalletAddressDiscoveryProgressReport) {
