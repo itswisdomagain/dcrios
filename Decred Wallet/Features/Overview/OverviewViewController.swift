@@ -160,13 +160,13 @@ class OverviewViewController: UIViewController {
     }
     
     func setupInterface(){
-        recentTransactionsLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.5), yPosition: recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.4)
         walletStatusLabel.text = LocalizedStrings.walletStatus
         syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
         syncStatusIndicator.contentMode = .scaleAspectFit
         
         latestBlockLabel.text = String(format: LocalizedStrings.latestBlock, (AppDelegate.walletLoader.wallet?.getBestBlock())!)
         
+        // Fix this to show internet connection status instead
         onlineIndicator.layer.cornerRadius = 5
         onlineIndicator.layer.backgroundColor = ((AppDelegate.walletLoader.wallet?.walletOpened())!) ? UIColor.appColors.decredGreen.cgColor : UIColor.red.cgColor
         
@@ -427,7 +427,7 @@ class OverviewViewController: UIViewController {
             stepDetailLabel.trailingAnchor.constraint(equalTo: detailsContainerView.trailingAnchor, constant: -16),
             stepDetailLabel.heightAnchor.constraint(equalToConstant: 16),
             
-            detailsView.heightAnchor.constraint(equalToConstant: 112),
+            detailsView.heightAnchor.constraint(equalToConstant: 100),
             detailsView.topAnchor.constraint(equalTo: stepDetailLabel.bottomAnchor, constant: 20.0),
             detailsView.bottomAnchor.constraint(equalTo: detailsContainerView.bottomAnchor, constant: -20),
             detailsView.leadingAnchor.constraint(equalTo: detailsContainerView.leadingAnchor, constant: 16),
