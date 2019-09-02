@@ -160,7 +160,7 @@ class OverviewViewController: UIViewController {
     }
     
     func setupInterface(){
-        walletStatusLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.32)
+        recentTransactionsLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.5), yPosition: recentTransactionsLabelView.frame.maxY-1, borderHeight: 0.4)
         walletStatusLabel.text = LocalizedStrings.walletStatus
         syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
         syncStatusIndicator.contentMode = .scaleAspectFit
@@ -258,9 +258,9 @@ class OverviewViewController: UIViewController {
         timeLeft.font = UIFont(name: "Source Sans Pro", size: 16.0)
         timeLeft.clipsToBounds = true
         
-        self.walletStatusSection.addSubview(syncProgress)
-        self.walletStatusSection.addSubview(percentage)
-        self.walletStatusSection.addSubview(timeLeft)
+        self.syncStatusView.addSubview(syncProgress)
+        self.syncStatusView.addSubview(percentage)
+        self.syncStatusView.addSubview(timeLeft)
         
         syncProgress.translatesAutoresizingMaskIntoConstraints = false
         timeLeft.translatesAutoresizingMaskIntoConstraints = false
@@ -293,11 +293,14 @@ class OverviewViewController: UIViewController {
     
     func hideSyncStatus(){
         UIView.animate(withDuration: 2.0){
-        self.walletStatusSection.subviews.forEach({$0.removeFromSuperview()})
+            if self.syncStatusView.subviews.count > 2{
+                for i in 4 ..< self.syncStatusView.subviews.count-1{
+                    self.syncStatusView.subviews[i].removeFromSuperview()
+                }
+            }
             self.latestBlockLabel.isHidden = false
             self.connectionStatusLabel.isHidden = false
         }
-        
         let blockAge = self.setBestBlockAge()
         let bestBlock = AppDelegate.walletLoader.wallet!.getBestBlock()
         self.latestBlockLabel.text = String(format: LocalizedStrings.latestBlockAge, bestBlock, blockAge)
@@ -329,7 +332,7 @@ class OverviewViewController: UIViewController {
             self.syncToggle = true
         }
     }
-    
+    // Show sync details on user click "show details" button while syncing
     func handleShowSyncDetails(){
         let syncDetailsComponent = self.syncDetailsComponent()
         let position = self.walletStatusSection.arrangedSubviews.index(before: self.walletStatusSection.arrangedSubviews.endIndex)
