@@ -118,7 +118,7 @@
 "transactions" = "Transactions";
 "more" = "More";
 "syncStageDescription" = "%@ - %d%%";
-"latestBlockAge" = "Latest block %d% - ~%@";
+"latestBlockAge" = "Latest block %d% :- %@";
 "blockHeadersFetched" = "Block headers fetched";
 
 /* No Wifi Sync Connection */

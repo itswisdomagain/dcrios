@@ -157,7 +157,7 @@ class OverviewViewController: UIViewController {
             self.walletStatusSection.cornerRadius(18)
         }
     }
-    
+    // preliminary setup of overview interface
     func setupInterface(){
         walletStatusLabel.text = LocalizedStrings.walletStatus
         syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
@@ -292,8 +292,6 @@ class OverviewViewController: UIViewController {
     }
     // hide sync status progressbar and time
     func hideSyncStatus(){
-        print("subviews: \(walletStatusSection.subviews.count)")
-        print("arrainged: \(walletStatusSection.arrangedSubviews.count)")
         if self.walletStatusSection.subviews.count > 3{
             UIView.animate(withDuration: 2.0){
                 for i in 3 ..< 4{
