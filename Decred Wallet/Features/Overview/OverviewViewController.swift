@@ -32,8 +32,8 @@ class OverviewViewController: UIViewController {
         didSet{
             self.recentTransactionsLabelView.horizontalBorder(borderColor: UIColor(red: 0.24, green: 0.35, blue: 0.45, alpha: 0.4), yPosition: self.recentTransactionsLabelView.frame.maxY-2, borderHeight: 0.52)
         }
-        
     }
+    
     @IBOutlet weak var recentTransactionsLabel: UILabel!{
         didSet{
             recentTransactionsLabel.text = LocalizedStrings.recentTransactions
@@ -116,13 +116,10 @@ class OverviewViewController: UIViewController {
         }
         
         syncManager.status.subscribe(with: self){ (status, error) in
-            DispatchQueue.main.async {
-                self.updateSync(status: status, error: error)
-            }
-        }
+            self.updateSyncStatus(status, error: error)
+        }.onQueue(DispatchQueue.main)
         
         syncManager.peers.subscribe(with: self){ (peers) in
-            print(peers)
             DispatchQueue.main.async {
                 let text = String(format: LocalizedStrings.connectedTo, peers)
                 self.connectionStatusLabel.text! = text
@@ -171,7 +168,6 @@ class OverviewViewController: UIViewController {
         
         // show transactions button action
         seeAllTransactionsButton.addTarget(self, action: #selector(self.handleShowAllTransactions), for: .touchUpInside)
-
         showSyncStatusButton.titleLabel!.font = UIFont(name: "Source Sans Pro", size: 16.0)
         showSyncStatusButton.setTitle(LocalizedStrings.showDetails, for: .normal)
         showSyncStatusButton.setTitleColor(UIColor.appColors.decredBlue, for: .normal)
@@ -199,14 +195,14 @@ class OverviewViewController: UIViewController {
         }
     }
     
-    func updateSync(status: syncStatus, error: String?){
+    func updateSyncStatus(_ status: syncStatus, error: String?){
         switch status {
         case .complete:
             if isSyncing{
                 self.isSyncing = false
             }
-            syncStatusLabel.text = (AppDelegate.walletLoader.isSynced) ? LocalizedStrings.walletSynced : LocalizedStrings.walletNotSynced
-            syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
+            self.syncStatusLabel.text = (AppDelegate.walletLoader.isSynced) ? LocalizedStrings.walletSynced : LocalizedStrings.walletNotSynced
+            self.syncStatusIndicator.image = (AppDelegate.walletLoader.isSynced) ? UIImage(named: "icon-ok") : UIImage(named: "icon-cancel")
             self.hideSyncStatus()
             self.handleHideSyncDetails()
             break
@@ -214,21 +210,22 @@ class OverviewViewController: UIViewController {
             if self.isSyncing{
                 self.isSyncing = false
             }
-            self.syncStatusLabel.text = LocalizedStrings.syncError
+            self.syncStatusLabel.text = error!
+            break
         case .syncing:
             if self.isSyncing{
                 break
             }
-            syncStatusLabel.text = LocalizedStrings.synchronizing
-            syncStatusIndicator.image = UIImage(named: "icon-syncing")
+            self.syncStatusLabel.text = LocalizedStrings.synchronizing
+            self.syncStatusIndicator.image = UIImage(named: "icon-syncing")
             self.isSyncing = true
             break
         case .waiting:
             if self.isSyncing{
                 break
             }
-            syncStatusLabel.text = LocalizedStrings.waitingToSync
-            syncStatusIndicator.image = UIImage(named: "icon-syncing")
+            self.syncStatusLabel.text = error!
+            self.syncStatusIndicator.image = UIImage(named: "icon-syncing")
             self.isSyncing = true
             break
         }

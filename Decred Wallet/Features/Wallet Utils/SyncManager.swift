@@ -31,7 +31,6 @@ class SyncManager{
     let headerFetchProgress = Signal<DcrlibwalletHeadersFetchProgressReport>()
 
     init() {
-//        super.init()
         self.netType = BuildConfig.IsTestNet ? "testnet" : BuildConfig.NetType
         AppDelegate.walletLoader.notification.registerListener(for: "\(self)", newTxistener: self)
         AppDelegate.walletLoader.notification.registerListener(for: "\(self)", confirmedTxListener: self)
